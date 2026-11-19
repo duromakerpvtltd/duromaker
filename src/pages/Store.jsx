@@ -1,104 +1,101 @@
 import { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 import { MessageSquare } from 'lucide-react';
-import { PRODUCTS, WHATSAPP_URL } from '../data';
+import InteriorImage from '../components/InteriorImage';
+import { CONTACT_EMAIL } from '../data';
+import { getInteriorImage, PRODUCTS } from '../data/interiorGallery';
 
-const CATEGORIES = ['All', 'Seating', 'Tables', 'Lighting', 'Decor'];
+const CATEGORIES = ['All', ...new Set(PRODUCTS.map((product) => product.category))];
 
 export default function Store() {
   const [activeCategory, setActiveCategory] = useState('All');
-  const [sortOption, setSortOption] = useState('featured');
-
-  let list = activeCategory === 'All' ? [...PRODUCTS] : PRODUCTS.filter((p) => p.category === activeCategory);
-
-  const getNumericPrice = (p) => +p.price.replace(/[^\d]/g, '');
-  if (sortOption === 'low') list.sort((a, b) => getNumericPrice(a) - getNumericPrice(b));
-  if (sortOption === 'high') list.sort((a, b) => getNumericPrice(b) - getNumericPrice(a));
+  const reduceMotion = useReducedMotion();
+  const products = activeCategory === 'All'
+    ? PRODUCTS
+    : PRODUCTS.filter((product) => product.category === activeCategory);
 
   return (
-    <section className="px-6 md:px-16 pt-40 pb-28">
-      <h1 className="display text-[14vw] md:text-[9vw] leading-none">Our store</h1>
-      <p className="mt-6 max-w-xl text-charcoal/80 text-lg">
-        Bespoke furniture and architectural lighting pieces designed and commissioned for Duro Maker projects.
+    <section className="px-6 pb-28 pt-40 md:px-16">
+      <h1 className="display text-[14vw] leading-none md:text-[9vw]">Our store</h1>
+      <p className="mt-6 max-w-2xl text-lg leading-relaxed text-charcoal/80">
+        Browse image references for kitchens, storage, furniture, lighting, and interior details.
+      </p>
+      <p className="mt-3 max-w-2xl text-sm leading-relaxed text-earth">
+        These photographs do not represent stocked products, verified finishes, prices, or availability.
       </p>
 
-      <div className="flex flex-wrap justify-between items-center gap-4 my-12 border-y border-earth/20 py-4">
-        <div className="flex gap-6 flex-wrap">
-          {CATEGORIES.map((x) => (
-            <button
-              key={x}
-              onClick={() => setActiveCategory(x)}
-              className={`text-sm tracking-wide transition-colors cursor-pointer ${
-                activeCategory === x
-                  ? 'underline underline-offset-8 font-semibold text-charcoal'
-                  : 'text-earth hover:text-charcoal'
-              }`}
-            >
-              {x}
-            </button>
-          ))}
-        </div>
-
-        <select
-          value={sortOption}
-          onChange={(e) => setSortOption(e.target.value)}
-          className="bg-transparent text-sm border-b border-earth/30 pb-1 cursor-pointer focus:outline-hidden text-charcoal"
-        >
-          <option value="featured">Featured Order</option>
-          <option value="low">Price: Low to High</option>
-          <option value="high">Price: High to Low</option>
-        </select>
+      <div role="group" aria-label="Filter catalogue references" className="my-12 flex flex-wrap gap-x-6 gap-y-3 border-y border-earth/20 py-4">
+        {CATEGORIES.map((category) => (
+          <button
+            key={category}
+            type="button"
+            aria-pressed={activeCategory === category}
+            onClick={() => setActiveCategory(category)}
+            className={`cursor-pointer border-b-2 pb-1 text-sm tracking-wide transition-colors ${
+              activeCategory === category
+                ? 'border-charcoal font-semibold text-charcoal'
+                : 'border-transparent text-earth hover:text-charcoal'
+            }`}
+          >
+            {category}
+          </button>
+        ))}
       </div>
 
-      <motion.div layout className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-x-8 gap-y-16">
-        <AnimatePresence>
-          {list.map((p) => {
-            const productEnquiryUrl = `${WHATSAPP_URL}%20I%20am%20interested%20in%20the%20${encodeURIComponent(
-              p.name
-            )}%20(${encodeURIComponent(p.price)}).`;
+      {products.length > 0 ? (
+        <motion.div layout={!reduceMotion} className="grid grid-cols-1 gap-x-8 gap-y-16 sm:grid-cols-2 lg:grid-cols-3">
+          <AnimatePresence mode="popLayout">
+            {products.map((product) => {
+              const image = getInteriorImage(product.imageId);
+              const enquiryUrl = `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(`Enquiry: ${product.name}`)}&body=${encodeURIComponent(`Hello DURO MAKER INTERIORS,\n\nI would like to discuss this design reference: ${product.name}.\n\nPlease contact me to talk through a similar design.`)}`;
 
-            return (
-              <motion.article
-                layout
-                key={p.id}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.4 }}
-                className="group flex flex-col justify-between"
-              >
-                <div>
-                  <div className="overflow-hidden aspect-[4/5] bg-cream/40 rounded-xs">
-                    <img
-                      src={p.img}
-                      alt={p.name}
-                      className="w-full h-full object-cover transition duration-1000 group-hover:scale-105"
+              return (
+                <motion.article
+                  layout={!reduceMotion}
+                  key={product.id}
+                  initial={reduceMotion ? false : { opacity: 0, y: 18 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: reduceMotion ? 0 : 0.35 }}
+                  className="group flex flex-col"
+                >
+                  <div className={`overflow-hidden bg-cream ${image.orientation === 'portrait' ? 'aspect-[4/5]' : image.orientation === 'square' ? 'aspect-square' : 'aspect-[4/3]'}`}>
+                    <InteriorImage
+                      photo={image}
+                      alt={image.alt}
+                      className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                      sizes="(min-width: 1024px) 30vw, (min-width: 640px) 48vw, 100vw"
                     />
                   </div>
-                  <div className="flex justify-between items-baseline mt-4">
-                    <h2 className="display text-2xl group-hover:text-earth transition-colors">
-                      {p.name}
-                    </h2>
-                    <span className="text-sm font-medium font-mono text-charcoal">{p.price}</span>
+                  <div className="mt-4 flex-1">
+                    <p className="text-sm text-earth">{product.category}</p>
+                    <h2 className="display mt-2 text-3xl">{product.name}</h2>
+                    <p className="mt-3 leading-relaxed text-charcoal/80">{product.description}</p>
+                    <p className="mt-3 text-sm leading-relaxed text-earth">{product.finishNote}</p>
+                    <div className="mt-3 flex flex-wrap gap-4 text-xs">
+                      <a href={image.sourceUrl} target="_blank" rel="noreferrer" className="border-b border-earth/50 pb-1 hover:text-charcoal">
+                        Photo source
+                      </a>
+                      <a href={image.licenseUrl} target="_blank" rel="noreferrer" className="border-b border-earth/50 pb-1 hover:text-charcoal">
+                        Pexels License
+                      </a>
+                    </div>
                   </div>
-                  <p className="text-xs uppercase tracking-wider text-earth mt-1 font-mono">
-                    {p.category}
-                  </p>
-                </div>
-
-                <a
-                  href={productEnquiryUrl}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="mt-4 inline-flex items-center gap-2 text-xs uppercase tracking-wider border-b border-earth/40 pb-1 text-earth hover:text-charcoal hover:border-charcoal transition-colors self-start"
-                >
-                  <MessageSquare size={14} /> Enquire on WhatsApp
-                </a>
-              </motion.article>
-            );
-          })}
-        </AnimatePresence>
-      </motion.div>
+                  <a
+                    href={enquiryUrl}
+                    className="mt-5 inline-flex w-fit items-center gap-2 border-b border-charcoal pb-1 text-sm font-medium transition-colors hover:text-earth"
+                  >
+                    <MessageSquare size={15} aria-hidden="true" />
+                    Enquire about a similar design
+                  </a>
+                </motion.article>
+              );
+            })}
+          </AnimatePresence>
+        </motion.div>
+      ) : (
+        <p className="py-16 text-earth">No references are available in this category.</p>
+      )}
     </section>
   );
 }

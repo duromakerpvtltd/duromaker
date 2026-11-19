@@ -1,121 +1,123 @@
 import { useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { PROJECTS, IMG } from '../data';
-import { Img, Lines } from '../components/Reveal';
+import InteriorImage from '../components/InteriorImage';
 import Lightbox from '../components/Lightbox';
+import { WORKS_GALLERY } from '../data/interiorGallery';
 
 export default function Project() {
   const [lightboxIndex, setLightboxIndex] = useState(null);
   const { slug } = useParams();
-  const index = PROJECTS.findIndex((p) => p.slug === slug);
-  const project = PROJECTS[index];
+  const index = WORKS_GALLERY.findIndex((entry) => entry.id === slug);
+  const reference = WORKS_GALLERY[index];
 
-  if (!project) {
+  if (!reference) {
     return (
-      <section className="pt-40 px-6 md:px-16 min-h-screen flex flex-col justify-center items-start">
-        <h1 className="display text-5xl">Project not found</h1>
-        <p className="mt-4 text-earth">The project you are looking for does not exist or has been moved.</p>
+      <section className="flex min-h-screen flex-col items-start justify-center px-6 pt-40 md:px-16">
+        <h1 className="display text-5xl">Reference not found</h1>
+        <p className="mt-4 max-w-xl text-earth">This inspiration image may have been removed from the gallery.</p>
         <Link to="/works" className="mt-8 border-b border-charcoal pb-1">
-          ← Back to our projects
+          Back to the inspiration gallery
         </Link>
       </section>
     );
   }
 
-  const nextProject = PROJECTS[(index + 1) % PROJECTS.length];
-  const gallery = [project.img, ...[IMG.a, IMG.b, IMG.c, IMG.d, IMG.e, IMG.f]
-    .filter((image) => image !== project.img)].slice(0, 5);
+  const relatedImages = WORKS_GALLERY
+    .filter((entry) => entry.category === reference.category)
+    .slice(0, 6);
+  const nextReference = WORKS_GALLERY[(index + 1) % WORKS_GALLERY.length];
 
   return (
     <>
-      <section className="relative flex min-h-[100dvh] items-end text-ivory">
-        <img
-          src={project.img}
-          alt={project.title}
-          className="absolute inset-0 w-full h-full object-cover"
+      <section className="relative flex min-h-[85dvh] items-end overflow-hidden text-ivory">
+        <InteriorImage
+          photo={reference}
+          alt={reference.alt}
+          className="absolute inset-0 h-full w-full object-cover"
+          loading="eager"
+          fetchPriority="high"
+          sizes="100vw"
         />
-        <div className="absolute inset-0 bg-charcoal/35" />
-        <div className="relative px-6 md:px-16 pb-16 md:pb-20">
-          <span className="text-xs uppercase tracking-widest text-beige font-mono">
-            {project.category} · {project.year}
-          </span>
-          <h1 className="display text-[13vw] md:text-[9vw] leading-none mt-2">
-            {project.title}
+        <div className="absolute inset-0 bg-charcoal/40" />
+        <div className="relative px-6 pb-16 md:px-16 md:pb-20">
+          <p className="mb-4 text-sm text-ivory/90">Inspiration reference / {reference.category}</p>
+          <h1 className="display max-w-6xl text-[12vw] leading-[1.02] md:text-[8vw]">
+            {reference.title}
           </h1>
         </div>
       </section>
 
-      <section className="px-6 md:px-16 py-24 grid md:grid-cols-3 gap-12">
-        <div className="md:col-span-2">
-          <h2 className="display text-4xl mb-4">Overview</h2>
-          <p className="max-w-xl text-charcoal/85 leading-relaxed text-lg">
-            {project.concept}
+      <section className="grid gap-12 px-6 py-24 md:grid-cols-12 md:px-16">
+        <div className="md:col-span-7">
+          <h2 className="display mb-5 text-4xl">About this reference</h2>
+          <p className="max-w-2xl text-lg leading-relaxed text-charcoal/85">
+            {reference.detailedDescription}
           </p>
-          <h2 className="display text-4xl mt-14 mb-4">Design concept</h2>
-          <p className="max-w-xl text-charcoal/80 leading-relaxed">
-            Every surface was chosen to age gracefully with daily use. Natural light and spatial circulation were balanced to create rooms that reveal themselves gradually with a calm, tactile presence.
+          <p className="mt-5 max-w-2xl text-sm leading-relaxed text-earth">
+            This is third-party inspiration photography, not a verified Duro Maker client project or product.
           </p>
         </div>
 
-        <dl className="space-y-4 text-sm self-start bg-cream/50 p-6 border border-earth/20 rounded-xs">
-          {[
-            ['Location', project.location],
-            ['Category', project.category],
-            ['Year', project.year],
-            ['Studio', 'DURO MAKER INTERIORS']
-          ].map(([key, val]) => (
-            <div key={key} className="flex justify-between border-b border-earth/20 pb-2 gap-4">
-              <dt className="text-earth font-medium">{key}</dt>
-              <dd className="font-medium text-charcoal">{val}</dd>
-            </div>
-          ))}
+        <dl className="self-start border-t border-earth/30 pt-5 text-sm md:col-span-4 md:col-start-9">
+          <div className="flex justify-between gap-4 border-b border-earth/20 py-3">
+            <dt className="text-earth">Category</dt>
+            <dd className="text-right font-medium text-charcoal">{reference.category}</dd>
+          </div>
+          <div className="flex justify-between gap-4 border-b border-earth/20 py-3">
+            <dt className="text-earth">Reference type</dt>
+            <dd className="text-right font-medium text-charcoal">Inspiration</dd>
+          </div>
+          <div className="flex justify-between gap-4 border-b border-earth/20 py-3">
+            <dt className="text-earth">Image source</dt>
+            <dd className="text-right font-medium text-charcoal">{reference.source}</dd>
+          </div>
+          <div className="flex flex-col gap-3 pt-5">
+            <a href={reference.sourceUrl} target="_blank" rel="noreferrer" className="w-fit border-b border-charcoal pb-1">
+              View original photo
+            </a>
+            <a href={reference.licenseUrl} target="_blank" rel="noreferrer" className="w-fit border-b border-charcoal pb-1">
+              Read Pexels License
+            </a>
+          </div>
         </dl>
       </section>
 
-      <section className="px-6 md:px-16 grid md:grid-cols-2 gap-6">
-        {gallery.map((imgSrc, k) => (
-          <button
-            key={k}
-            type="button"
-            aria-label={`View image ${k + 1} of ${project.title}`}
-            onClick={() => setLightboxIndex(k)}
-            className={`block w-full cursor-zoom-in text-left ${k % 2 ? 'md:mt-24' : ''}`}
-          >
-            <Img
-              src={imgSrc}
-              className="aspect-[4/5] rounded-xs"
-              alt={`${project.title} interior detail ${k + 1}`}
-            />
-          </button>
-        ))}
-      </section>
-
-      <section className="px-6 md:px-16 py-24">
-        <h2 className="display text-4xl mb-8">Materials & finishes</h2>
-        <div className="flex flex-wrap gap-3">
-          {project.materials.map((material) => (
-            <span
-              key={material}
-              className="border border-earth/40 px-5 py-2 text-sm rounded-full bg-cream/30 text-charcoal"
+      <section className="px-6 pb-24 md:px-16">
+        <h2 className="display mb-8 text-4xl">More {reference.category.toLowerCase()}</h2>
+        <div className="grid gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3">
+          {relatedImages.map((entry, galleryIndex) => (
+            <button
+              key={entry.id}
+              type="button"
+              aria-label={`View ${entry.title} in the gallery`}
+              onClick={() => setLightboxIndex(galleryIndex)}
+              className="group cursor-zoom-in text-left"
             >
-              {material}
-            </span>
+              <div className={`overflow-hidden ${entry.orientation === 'portrait' ? 'aspect-[4/5]' : entry.orientation === 'square' ? 'aspect-square' : 'aspect-[5/4]'}`}>
+                <InteriorImage
+                  photo={entry}
+                  className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                />
+              </div>
+              <span className="mt-3 block text-sm text-earth">{entry.category}</span>
+              <span className="display mt-1 block text-2xl">{entry.title}</span>
+            </button>
           ))}
         </div>
       </section>
 
       <Link
-        to={`/works/${nextProject.slug}`}
-        className="block bg-charcoal text-ivory px-6 md:px-16 py-28 hover:bg-charcoal/95 transition-colors group"
+        to={`/works/${nextReference.id}`}
+        className="block bg-charcoal px-6 py-20 text-ivory transition-colors hover:bg-charcoal/95 md:px-16 md:py-28"
       >
-        <p className="text-beige text-xs uppercase tracking-widest font-mono">Next project →</p>
-        <Lines className="display text-6xl md:text-9xl mt-4 group-hover:text-beige transition-colors" text={nextProject.title} />
+        <p className="text-sm text-beige">Next inspiration reference</p>
+        <span className="display mt-4 block text-5xl md:text-7xl">{nextReference.title}</span>
       </Link>
       <Lightbox
-        images={gallery}
+        images={relatedImages}
         index={lightboxIndex}
         setIndex={setLightboxIndex}
-        title={project.title}
+        title={reference.category}
       />
     </>
   );

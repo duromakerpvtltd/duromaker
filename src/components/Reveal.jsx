@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import InteriorImage from './InteriorImage';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -83,8 +84,8 @@ export function Img({ src, className = '', alt = '' }) {
 
   return (
     <div ref={containerRef} className={`overflow-hidden ${className}`}>
-      <img
-        src={src}
+      <InteriorImage
+        photo={src}
         alt={alt}
         loading="lazy"
         className="w-full h-[114%] object-cover block"

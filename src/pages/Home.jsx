@@ -2,7 +2,24 @@ import { useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import gsap from 'gsap';
 import { Img, Lines } from '../components/Reveal';
-import { IMG, INSTAGRAM_URL, PROJECTS, SERVICES } from '../data';
+import InteriorImage from '../components/InteriorImage';
+import { INSTAGRAM_URL, SERVICES } from '../data';
+import { getInteriorImage } from '../data/interiorGallery';
+
+const heroImage = getInteriorImage(7148846);
+const livingImage = getInteriorImage(8082242);
+const kitchenImage = getInteriorImage(35443238);
+const bedroomImage = getInteriorImage(34574606);
+const wardrobeImage = getInteriorImage(6670657);
+const collectionImage = getInteriorImage(36601414);
+const architectureImage = getInteriorImage(7148841);
+const detailImage = getInteriorImage(9329002);
+
+const spaces = [
+  { title: 'Modular kitchens', category: 'Kitchens', image: kitchenImage, className: 'md:col-span-6' },
+  { title: 'Bedrooms', category: 'Bedrooms', image: bedroomImage, className: 'md:col-span-5 md:col-start-8 md:mt-24' },
+  { title: 'Wardrobes', category: 'Wardrobes', image: wardrobeImage, className: 'md:col-span-6 md:col-start-4' },
+];
 
 export default function Home({ ready }) {
   const heroRef = useRef(null);
@@ -23,10 +40,13 @@ export default function Home({ ready }) {
 
   return <>
     <section ref={heroRef} className="relative min-h-[100dvh] overflow-hidden text-ivory">
-      <img
+      <InteriorImage
+        photo={heroImage}
         className="hero-img absolute inset-0 h-full w-full object-cover"
-        src={IMG.hero}
-        alt="Interior design reference photograph"
+        alt={heroImage.alt}
+        loading="eager"
+        fetchPriority="high"
+        sizes="100vw"
       />
       <div className="absolute inset-0 bg-charcoal/40" />
       <div className="relative flex min-h-[100dvh] flex-col justify-end px-6 pb-16 md:px-16 md:pb-20">
@@ -36,14 +56,14 @@ export default function Home({ ready }) {
         </h1>
         <div className="hero-summary mt-7 flex flex-col gap-5 md:ml-[10vw] md:flex-row md:items-end md:justify-between">
           <p className="max-w-sm text-sm leading-relaxed md:text-base">
-            Space planning, interior styling, and bespoke interiors.
+            Licensed interior references, with space planning and styling for your brief.
           </p>
           <div className="flex flex-wrap gap-3">
             <Link to="/services" className="border border-ivory/70 px-6 py-3 text-sm transition-colors hover:bg-ivory hover:text-charcoal">
               Our services
             </Link>
             <Link to="/works" className="border border-ivory/70 px-6 py-3 text-sm transition-colors hover:bg-ivory hover:text-charcoal">
-              View projects
+              Explore interiors
             </Link>
           </div>
         </div>
@@ -57,43 +77,80 @@ export default function Home({ ready }) {
           text="Interior design shaped around everyday life."
         />
         <p className="mt-6 max-w-lg leading-relaxed text-charcoal/80">
-          Explore residential and commercial concepts from across Odisha.
+          Browse room ideas for homes and commercial spaces, then tell us what fits your brief.
         </p>
       </div>
       <Img
-        src={IMG.d}
+        src={livingImage}
         className="aspect-[4/5] md:col-span-5 md:col-start-8"
-        alt="Interior design reference photograph"
+        alt={livingImage.alt}
       />
     </section>
 
     <section className="px-6 pb-28 md:px-16 md:pb-32">
-      <h2 className="display mb-10 text-5xl md:text-6xl">Selected projects</h2>
-      <div className="grid gap-x-8 gap-y-14 md:grid-cols-12">
-        {PROJECTS.slice(0, 3).map((project, index) => (
+      <h2 className="display mb-5 text-5xl md:text-6xl">Spaces to explore</h2>
+      <p className="mb-12 max-w-xl leading-relaxed text-charcoal/75">
+        These editorial photographs are inspiration references, not verified Duro Maker projects.
+      </p>
+      <div className="grid grid-cols-1 gap-x-8 gap-y-14 md:grid-cols-12">
+        {spaces.map((space) => (
           <Link
-            key={project.slug}
-            to={`/works/${project.slug}`}
-            className={`group block ${index === 0 ? 'md:col-span-7' : 'md:col-span-5'} ${index === 1 ? 'md:mt-24' : ''}`}
+            key={space.title}
+            to={`/works?category=${encodeURIComponent(space.category)}`}
+            className={`group block ${space.className}`}
           >
-            <div className={`overflow-hidden ${index === 0 ? 'aspect-[4/3]' : 'aspect-[4/5]'}`}>
-              <img
-                src={project.img}
-                alt={`${project.title} interior`}
-                loading="lazy"
+            <div className={`overflow-hidden ${space.title === 'Bedrooms' ? 'aspect-[4/5]' : 'aspect-[4/3]'}`}>
+              <InteriorImage
+                photo={space.image}
+                alt={space.image.alt}
                 className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                sizes="(min-width: 768px) 55vw, 100vw"
               />
             </div>
-            <div className="mt-4 flex flex-wrap items-baseline justify-between gap-2">
-              <h3 className="display text-3xl transition-colors group-hover:text-earth">{project.title}</h3>
-              <span className="text-sm text-earth">{project.location}</span>
-            </div>
+            <h3 className="display mt-4 text-3xl transition-colors group-hover:text-earth">{space.title}</h3>
           </Link>
         ))}
       </div>
-      <Link to="/works" className="mt-10 inline-block border-b border-charcoal pb-1">
-        View all projects
-      </Link>
+    </section>
+
+    <section className="relative min-h-[70vh] overflow-hidden text-ivory md:min-h-[85vh]">
+      <InteriorImage
+        photo={collectionImage}
+        alt={collectionImage.alt}
+        className="absolute inset-0 h-full w-full object-cover"
+        sizes="100vw"
+      />
+      <div className="absolute inset-0 bg-charcoal/35" />
+      <div className="relative flex min-h-[70vh] flex-col justify-end px-6 py-16 md:min-h-[85vh] md:px-16 md:py-20">
+        <h2 className="display max-w-4xl text-5xl md:text-7xl">A collection of considered interiors.</h2>
+        <p className="mt-5 max-w-lg leading-relaxed">
+          Explore forms, finishes, and room arrangements from editorial reference photography.
+        </p>
+      </div>
+    </section>
+
+    <section className="px-6 py-24 md:px-16 md:py-32">
+      <InteriorImage
+        photo={architectureImage}
+        alt={architectureImage.alt}
+        className="aspect-[2/1] w-full object-cover"
+        sizes="100vw"
+      />
+      <p className="display mt-5 text-3xl md:text-4xl">Architecture, proportion, and light.</p>
+    </section>
+
+    <section className="grid gap-10 px-6 pb-24 md:grid-cols-12 md:items-center md:px-16 md:pb-32">
+      <div className="md:col-span-5">
+        <Lines className="display text-5xl md:text-6xl" text="The details shape the room." />
+        <p className="mt-5 max-w-md leading-relaxed text-charcoal/75">
+          Wood tones and lighting details can help set a direction before a design is finalised.
+        </p>
+      </div>
+      <Img
+        src={detailImage}
+        className="aspect-[4/3] md:col-span-6 md:col-start-7"
+        alt={detailImage.alt}
+      />
     </section>
 
     <section className="bg-cream px-6 py-24 md:px-16 md:py-28">

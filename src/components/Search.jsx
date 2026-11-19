@@ -2,7 +2,8 @@ import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Search as SearchIcon, X } from 'lucide-react';
-import { PRODUCTS, PROJECTS, SERVICES } from '../data';
+import { SERVICES } from '../data';
+import { PRODUCTS, WORKS_GALLERY } from '../data/interiorGallery';
 
 const SEARCH_ITEMS = [
   ...SERVICES.map((service) => ({
@@ -12,12 +13,12 @@ const SEARCH_ITEMS = [
     to: '/services',
     text: `${service.title} ${service.description}`
   })),
-  ...PROJECTS.map((project) => ({
-    title: project.title,
-    detail: `${project.location} | ${project.category}`,
-    group: 'Project',
-    to: `/works/${project.slug}`,
-    text: `${project.title} ${project.location} ${project.category} ${project.concept}`
+  ...WORKS_GALLERY.map((entry) => ({
+    title: entry.title,
+    detail: `${entry.category} | ${entry.subcategory}`,
+    group: 'Inspiration',
+    to: `/works/${entry.id}`,
+    text: `${entry.title} ${entry.category} ${entry.subcategory} ${entry.description}`
   })),
   ...PRODUCTS.map((product) => ({
     title: product.name,
@@ -75,7 +76,7 @@ export default function Search({ open, setOpen }) {
       >
         <X />
       </button>
-      <h2 id="site-search-title" className="sr-only">Search projects, services, and products</h2>
+      <h2 id="site-search-title" className="sr-only">Search interiors, services, and catalogue references</h2>
       <label htmlFor="site-search" className="sr-only">Search</label>
       <div className="flex items-center gap-4 border-b border-charcoal">
         <SearchIcon aria-hidden="true" />
@@ -84,7 +85,7 @@ export default function Search({ open, setOpen }) {
           id="site-search"
           value={query}
           onChange={(event) => setQuery(event.target.value)}
-          placeholder="Search projects, services, or products"
+          placeholder="Search interiors, services, or references"
           className="w-full bg-transparent py-4 text-xl outline-none md:text-2xl"
         />
       </div>
@@ -101,7 +102,7 @@ export default function Search({ open, setOpen }) {
           </Link>
         </li>)}
         {normalizedQuery.length > 1 && results.length === 0 && (
-          <li className="py-4 text-earth">No results found. Try a project or service name.</li>
+          <li className="py-4 text-earth">No results found. Try an interior category or service name.</li>
         )}
       </ul>
     </motion.div>}

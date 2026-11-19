@@ -1,8 +1,11 @@
 import { useEffect } from 'react';
-import { AnimatePresence, motion } from 'framer-motion';
+import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 import { ChevronLeft, ChevronRight, X } from 'lucide-react';
+import InteriorImage from './InteriorImage';
 
 export default function Lightbox({ images, index, setIndex, title }) {
+  const reduceMotion = useReducedMotion();
+
   useEffect(() => {
     if (index === null) return undefined;
 
@@ -21,24 +24,43 @@ export default function Lightbox({ images, index, setIndex, title }) {
     };
   }, [images.length, index, setIndex]);
 
+  const image = index === null ? null : images[index];
+
   return <AnimatePresence>
     {index !== null && <motion.div
       role="dialog"
       aria-modal="true"
       aria-label={`${title} image gallery`}
-      initial={{ opacity: 0 }}
+      initial={reduceMotion ? false : { opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
+      transition={{ duration: reduceMotion ? 0 : 0.2 }}
       onMouseDown={(event) => {
         if (event.target === event.currentTarget) setIndex(null);
       }}
-      className="fixed inset-0 z-[80] grid place-items-center bg-charcoal/95 p-5"
+      className="fixed inset-0 z-[80] flex flex-col items-center justify-center bg-charcoal/95 p-5 text-ivory"
     >
-      <img
-        src={images[index]}
-        alt={`${title}, image ${index + 1} of ${images.length}`}
-        className="max-h-[85vh] max-w-[92vw] object-contain"
+      <InteriorImage
+        photo={image}
+        alt={image.alt}
+        className="max-h-[72vh] max-w-[92vw] object-contain"
+        loading="eager"
       />
+      <div className="mt-4 max-w-3xl text-center">
+        <p className="display text-2xl md:text-3xl">{image.title}</p>
+        <p className="mt-2 text-sm leading-relaxed text-ivory/75">{image.detailedDescription}</p>
+        <p className="mt-2 text-xs text-ivory/60">
+          Inspiration photograph from Pexels. Not a verified Duro Maker project.
+        </p>
+        <a
+          href={image.sourceUrl}
+          target="_blank"
+          rel="noreferrer"
+          className="mt-3 inline-block border-b border-ivory/70 pb-1 text-sm hover:text-beige"
+        >
+          View source and photo details
+        </a>
+      </div>
       <button type="button" aria-label="Close gallery" onClick={() => setIndex(null)} className="absolute right-5 top-5 text-ivory">
         <X />
       </button>
