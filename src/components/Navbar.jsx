@@ -1,12 +1,14 @@
 import { useEffect, useState } from 'react';
 import { Link, NavLink, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Mail, Phone, Instagram, X } from 'lucide-react';
+import { Mail, Phone, Instagram, Search as SearchIcon, X } from 'lucide-react';
 import { CONTACT_EMAIL, CONTACT_PHONE, INSTAGRAM_URL, WHATSAPP_URL } from '../data';
+import SearchDialog from './Search';
 
 const NAV_LINKS = [
   ['/', 'Home'],
   ['/about', 'About'],
+  ['/services', 'Services'],
   ['/works', 'Our Works'],
   ['/store', 'Our Store'],
   ['/contact', 'Contact'],
@@ -15,6 +17,7 @@ const NAV_LINKS = [
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
   const loc = useLocation();
 
   const isDarkHero = loc.pathname === '/' || (loc.pathname.startsWith('/works/') && loc.pathname.split('/').filter(Boolean).length === 2);
@@ -30,6 +33,7 @@ export default function Navbar() {
 
   useEffect(() => {
     setOpen(false);
+    setSearchOpen(false);
   }, [loc.pathname]);
 
   const isLightNav = !scrolled && isDarkHero;
@@ -80,6 +84,17 @@ export default function Navbar() {
             Instagram
           </a>
         </nav>
+
+        <button
+          type="button"
+          aria-label="Search projects, services, and products"
+          onClick={() => setSearchOpen(true)}
+          className={`ml-auto mr-4 p-2 transition-opacity hover:opacity-70 md:ml-8 md:mr-0 ${
+            isLightNav && !open ? 'text-ivory' : 'text-charcoal'
+          }`}
+        >
+          <SearchIcon size={20} />
+        </button>
 
         <button
           aria-label={open ? 'Close Menu' : 'Open Menu'}
@@ -138,6 +153,16 @@ export default function Navbar() {
                   {label}
                 </Link>
               ))}
+              <button
+                type="button"
+                onClick={() => {
+                  setOpen(false);
+                  setSearchOpen(true);
+                }}
+                className="display text-left text-4xl hover:text-beige transition-colors sm:text-5xl"
+              >
+                Search
+              </button>
               <a
                 href={INSTAGRAM_URL}
                 target="_blank"
@@ -170,6 +195,7 @@ export default function Navbar() {
           </motion.div>
         )}
       </AnimatePresence>
+      <SearchDialog open={searchOpen} setOpen={setSearchOpen} />
     </>
   );
 }

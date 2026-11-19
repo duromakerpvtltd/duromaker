@@ -29,6 +29,7 @@ export default function Footer() {
           {[
             ['/', 'Home'],
             ['/about', 'About Us'],
+            ['/services', 'Services'],
             ['/works', 'Our Works'],
             ['/store', 'Our Store'],
             ['/contact', 'Contact Us'],

@@ -4,11 +4,13 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 gsap.registerPlugin(ScrollTrigger);
 
+const prefersReducedMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
 export function Lines({ text = '', className = '' }) {
   const containerRef = useRef(null);
 
   useEffect(() => {
-    if (!text || !containerRef.current) return;
+    if (!text || !containerRef.current || prefersReducedMotion()) return;
     const ctx = gsap.context(() => {
       gsap.from('.reveal-word', {
         yPercent: 110,
@@ -45,6 +47,10 @@ export function Img({ src, className = '', alt = '' }) {
     if (!containerRef.current) return;
     const imgEl = containerRef.current.querySelector('img');
     if (!imgEl) return;
+    if (prefersReducedMotion()) {
+      imgEl.style.height = '100%';
+      return;
+    }
 
     const ctx = gsap.context(() => {
       gsap.from(containerRef.current, {

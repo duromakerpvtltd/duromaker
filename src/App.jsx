@@ -13,6 +13,7 @@ import Home from './pages/Home';
 import About from './pages/About';
 import Works from './pages/Works';
 import Project from './pages/Project';
+import Services from './pages/Services';
 import Store from './pages/Store';
 import { CONTACT_EMAIL, CONTACT_PHONE, INSTAGRAM_URL, LOCATION, WHATSAPP_URL } from './data';
 
@@ -20,6 +21,8 @@ gsap.registerPlugin(ScrollTrigger);
 
 const Page = ({ children }) => (
   <motion.main
+    id="main"
+    tabIndex="-1"
     initial={{ opacity: 0, y: 24 }}
     animate={{ opacity: 1, y: 0 }}
     exit={{ opacity: 0 }}
@@ -140,11 +143,15 @@ export default function App() {
   return (
     <>
       {!ready && <Preloader onDone={() => setReady(true)} />}
+      <a href="#main" className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:bg-ivory focus:p-3">
+        Skip to content
+      </a>
       <Navbar />
       <AnimatePresence mode="wait">
         <Routes location={loc} key={loc.pathname}>
           <Route path="/" element={<Page><Home ready={ready} /></Page>} />
           <Route path="/about" element={<Page><About /></Page>} />
+          <Route path="/services" element={<Page><Services /></Page>} />
           <Route path="/works" element={<Page><Works /></Page>} />
           <Route path="/works/:slug" element={<Page><Project /></Page>} />
           <Route path="/store" element={<Page><Store /></Page>} />

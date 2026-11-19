@@ -22,6 +22,27 @@ export const IMG = {
 
 export const CATS = ['Residential', 'Commercial', 'Modern Luxury', 'Minimalist', 'Contemporary'];
 
+export const SERVICES = [
+  {
+    id: 'space-planning',
+    title: 'Space Planning',
+    description: 'Plan room layouts around how each space is used.',
+    image: IMG.a
+  },
+  {
+    id: 'interior-styling',
+    title: 'Interior Styling',
+    description: 'Coordinate furnishings, materials, and finishing details.',
+    image: IMG.b
+  },
+  {
+    id: 'bespoke-interiors',
+    title: 'Bespoke Interiors',
+    description: 'Shape interior design choices around a specific space.',
+    image: IMG.c
+  }
+];
+
 export const PROJECTS = [
   {
     slug: 'the-linen-house',

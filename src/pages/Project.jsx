@@ -1,8 +1,11 @@
+import { useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { PROJECTS, IMG } from '../data';
 import { Img, Lines } from '../components/Reveal';
+import Lightbox from '../components/Lightbox';
 
 export default function Project() {
+  const [lightboxIndex, setLightboxIndex] = useState(null);
   const { slug } = useParams();
   const index = PROJECTS.findIndex((p) => p.slug === slug);
   const project = PROJECTS[index];
@@ -20,11 +23,12 @@ export default function Project() {
   }
 
   const nextProject = PROJECTS[(index + 1) % PROJECTS.length];
-  const gallery = [IMG.b, IMG.c, IMG.d, IMG.e];
+  const gallery = [project.img, ...[IMG.a, IMG.b, IMG.c, IMG.d, IMG.e, IMG.f]
+    .filter((image) => image !== project.img)].slice(0, 5);
 
   return (
     <>
-      <section className="h-screen relative text-ivory flex items-end">
+      <section className="relative flex min-h-[100dvh] items-end text-ivory">
         <img
           src={project.img}
           alt={project.title}
@@ -70,12 +74,19 @@ export default function Project() {
 
       <section className="px-6 md:px-16 grid md:grid-cols-2 gap-6">
         {gallery.map((imgSrc, k) => (
-          <Img
+          <button
             key={k}
-            src={imgSrc}
-            className={`aspect-[4/5] rounded-xs ${k % 2 ? 'md:mt-24' : ''}`}
-            alt={`${project.title} interior detail ${k + 1}`}
-          />
+            type="button"
+            aria-label={`View image ${k + 1} of ${project.title}`}
+            onClick={() => setLightboxIndex(k)}
+            className={`block w-full cursor-zoom-in text-left ${k % 2 ? 'md:mt-24' : ''}`}
+          >
+            <Img
+              src={imgSrc}
+              className="aspect-[4/5] rounded-xs"
+              alt={`${project.title} interior detail ${k + 1}`}
+            />
+          </button>
         ))}
       </section>
 
@@ -100,6 +111,12 @@ export default function Project() {
         <p className="text-beige text-xs uppercase tracking-widest font-mono">Next project →</p>
         <Lines className="display text-6xl md:text-9xl mt-4 group-hover:text-beige transition-colors" text={nextProject.title} />
       </Link>
+      <Lightbox
+        images={gallery}
+        index={lightboxIndex}
+        setIndex={setLightboxIndex}
+        title={project.title}
+      />
     </>
   );
 }
