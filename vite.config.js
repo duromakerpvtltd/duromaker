@@ -1,2 +1,18 @@
-import {defineConfig} from 'vite';import react from '@vitejs/plugin-react';import tw from '@tailwindcss/vite';
-export default defineConfig({plugins:[react(),tw()]});
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
+import tw from '@tailwindcss/vite';
+
+export default defineConfig({
+  plugins: [react(), tw()],
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          vendor: ['react', 'react-dom', 'react-router-dom'],
+          motion: ['framer-motion', 'lenis', 'gsap'],
+          icons: ['lucide-react'],
+        },
+      },
+    },
+  },
+});

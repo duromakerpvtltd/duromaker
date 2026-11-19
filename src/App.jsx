@@ -180,7 +180,7 @@ export default function App() {
       </a>
       <Navbar />
       <AnimatePresence mode="wait">
-        <Routes location={loc} key={loc.pathname}>
+        <Routes location={loc}>
           <Route path="/" element={<Page><Home ready={ready} /></Page>} />
           <Route path="/about" element={<Page><About /></Page>} />
           <Route path="/services" element={<Page><Services /></Page>} />

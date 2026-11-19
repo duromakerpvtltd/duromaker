@@ -2,16 +2,26 @@ import { useState } from 'react';
 
 const FALLBACK_IMAGE = '/images/interiors/pexels-6980724-1600.webp';
 
+/**
+ * @param {object} [props]
+ * @param {any} [props.photo]
+ * @param {string} [props.src]
+ * @param {string} [props.alt]
+ * @param {string} [props.className]
+ * @param {'lazy' | 'eager'} [props.loading]
+ * @param {'high' | 'low' | 'auto'} [props.fetchPriority]
+ * @param {string} [props.sizes]
+ */
 export default function InteriorImage({
-  photo,
-  src,
-  alt,
+  photo = undefined,
+  src = undefined,
+  alt = '',
   className = '',
   loading = 'lazy',
-  fetchPriority,
+  fetchPriority = undefined,
   sizes = '100vw',
   ...props
-}) {
+} = {}) {
   const [failed, setFailed] = useState(false);
   const [fallbackFailed, setFallbackFailed] = useState(false);
   const image = photo || src;
