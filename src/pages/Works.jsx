@@ -1,10 +1,23 @@
-import {useState} from 'react';import {Link} from 'react-router-dom';import {motion,AnimatePresence} from 'framer-motion';import {PROJECTS,CATS} from '../data';
-export default function Works(){const [f,setF]=useState('All');const [m,setM]=useState({x:0,y:0,on:false});
- const list=f==='All'?PROJECTS:PROJECTS.filter(p=>p.category===f);
- return <section className="px-6 md:px-16 pt-40 pb-28" onMouseMove={e=>setM(s=>({...s,x:e.clientX,y:e.clientY}))}>
- <h1 className="display text-[14vw] md:text-[9vw]">Our works</h1>
- <div className="flex flex-wrap gap-x-8 gap-y-2 my-12">{['All',...CATS].map(c=><button key={c} onClick={()=>setF(c)} className={`pb-1 border-b ${f===c?'border-charcoal':'border-transparent text-earth'}`}>{c}</button>)}</div>
- <motion.div layout className="grid md:grid-cols-2 gap-x-8 gap-y-16"><AnimatePresence>{list.map((p,i)=><motion.div layout key={p.slug} initial={{opacity:0,y:40}} animate={{opacity:1,y:0}} exit={{opacity:0}} transition={{duration:.6,delay:i*.07}} className={i%3===0?'md:col-span-2':''}>
-  <Link to={`/works/${p.slug}`} className="group block" onMouseEnter={()=>setM(s=>({...s,on:true}))} onMouseLeave={()=>setM(s=>({...s,on:false}))}><div className={`overflow-hidden ${i%3===0?'aspect-[21/9]':'aspect-[4/5]'}`}><img src={p.img} alt={p.title} className="w-full h-full object-cover transition duration-[1400ms] group-hover:scale-105"/></div>
-  <div className="flex justify-between mt-3"><h3 className="display text-3xl">{p.title}</h3><span className="text-sm text-earth">{p.location}, {p.category}, {p.year}</span></div></Link></motion.div>)}</AnimatePresence></motion.div>
- <motion.div className="pointer-events-none fixed z-40 left-0 top-0 rounded-full bg-ivory text-charcoal text-xs w-20 h-20 grid place-items-center" animate={{x:m.x-40,y:m.y-40,scale:m.on?1:0}} transition={{type:'spring',stiffness:300,damping:28}}>View</motion.div></section>}
+import { Link } from 'react-router-dom';
+import { INSTAGRAM_URL, PROJECTS } from '../data';
+
+export default function Works() {
+  return <section className="px-6 pb-28 pt-40 md:px-16">
+    <h1 className="display text-[14vw] md:text-[9vw]">Our work</h1>
+    <p className="mt-5 max-w-xl">A completed project shared by DURO MAKER INTERIOR on Instagram.</p>
+    <div className="mt-14 grid gap-8 md:grid-cols-2">
+      {PROJECTS.map((project) => <article key={project.slug}>
+        <Link to={`/works/${project.slug}`} className="group block">
+          <div className="overflow-hidden">
+            <img src={project.image} alt={`Interior project at ${project.location}`} className="aspect-[4/3] w-full object-cover transition duration-700 group-hover:scale-[1.02]"/>
+          </div>
+          <div className="mt-4 flex flex-wrap items-baseline justify-between gap-2">
+            <h2 className="display text-3xl">{project.title}</h2>
+            <span className="text-sm text-earth">{project.date}</span>
+          </div>
+        </Link>
+      </article>)}
+    </div>
+    <a href={INSTAGRAM_URL} target="_blank" rel="noreferrer" className="mt-12 inline-block border-b border-charcoal pb-1">See more work on Instagram</a>
+  </section>;
+}
