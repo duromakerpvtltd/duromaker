@@ -1,11 +1,175 @@
-import {useEffect,useState} from 'react';import {Link,NavLink} from 'react-router-dom';import {motion,AnimatePresence} from 'framer-motion';
-import {INSTAGRAM_URL} from '../data';
-const L=[['/','Home'],['/about','About'],['/works','Our Works'],['/store','Our Store'],['/contact','Contact']];
-export default function Navbar(){const [s,setS]=useState(false);const [o,setO]=useState(false);
- useEffect(()=>{const f=()=>setS(scrollY>60);f();addEventListener('scroll',f);return()=>removeEventListener('scroll',f)},[]);
- return <header className={`fixed top-0 inset-x-0 z-50 flex items-center justify-between px-6 md:px-16 transition-all duration-500 ${s?'py-4 bg-ivory/85 backdrop-blur text-charcoal':'py-4 md:py-5 bg-charcoal/20 text-ivory'}`}>
- <Link to="/" className="shrink-0" onClick={()=>setO(false)}><img src="/duro-maker-logo.png" alt="Duro Maker Interiors" className={`w-auto transition-all ${s?'h-14':'h-16 md:h-20'}`}/></Link>
- <nav aria-label="Main" className="hidden md:flex gap-10 text-sm">{L.map(([t,n])=><NavLink key={t} to={t} className={({isActive})=>`relative after:absolute after:left-0 after:-bottom-1 after:h-px after:bg-current after:transition-all ${isActive?'after:w-full':'after:w-0 hover:after:w-full'}`}>{n}</NavLink>)}<a href={INSTAGRAM_URL} target="_blank" rel="noreferrer" className="hover:opacity-70">Instagram</a></nav>
- <button aria-label="Menu" className="md:hidden w-8 h-5 relative" onClick={()=>setO(!o)}><motion.span className="absolute left-0 w-full h-px bg-current" animate={{top:o?10:0,rotate:o?45:0}}/><motion.span className="absolute left-0 w-full h-px bg-current top-5" animate={{top:o?10:20,rotate:o?-45:0}}/></button>
- <AnimatePresence>{o&&<motion.div initial={{clipPath:'inset(0 0 100% 0)'}} animate={{clipPath:'inset(0 0 0% 0)'}} exit={{clipPath:'inset(0 0 100% 0)'}} className="fixed inset-0 -z-10 bg-charcoal text-ivory flex flex-col justify-center gap-6 px-8">
- {L.map(([t,n])=><Link key={t} to={t} onClick={()=>setO(false)} className="display text-6xl">{n}</Link>)}<a href={INSTAGRAM_URL} target="_blank" rel="noreferrer" onClick={()=>setO(false)} className="display text-6xl">Instagram</a></motion.div>}</AnimatePresence></header>}
+import { useEffect, useState } from 'react';
+import { Link, NavLink, useLocation } from 'react-router-dom';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Mail, Phone, Instagram, X } from 'lucide-react';
+import { CONTACT_EMAIL, CONTACT_PHONE, INSTAGRAM_URL, WHATSAPP_URL } from '../data';
+
+const NAV_LINKS = [
+  ['/', 'Home'],
+  ['/about', 'About'],
+  ['/works', 'Our Works'],
+  ['/store', 'Our Store'],
+  ['/contact', 'Contact'],
+];
+
+export default function Navbar() {
+  const [scrolled, setScrolled] = useState(false);
+  const [open, setOpen] = useState(false);
+  const loc = useLocation();
+
+  const isDarkHero = loc.pathname === '/' || (loc.pathname.startsWith('/works/') && loc.pathname.split('/').filter(Boolean).length === 2);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 50);
+    };
+    handleScroll();
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  useEffect(() => {
+    setOpen(false);
+  }, [loc.pathname]);
+
+  const isLightNav = !scrolled && isDarkHero;
+
+  return (
+    <>
+      <header
+        className={`fixed top-0 inset-x-0 z-40 flex items-center justify-between px-6 md:px-16 transition-all duration-500 ${
+          scrolled
+            ? 'py-3 md:py-4 bg-ivory/95 backdrop-blur-md text-charcoal border-b border-earth/20 shadow-xs'
+            : isLightNav
+            ? 'py-4 md:py-6 bg-charcoal/20 text-ivory'
+            : 'py-4 md:py-6 bg-ivory/85 backdrop-blur-sm text-charcoal border-b border-earth/15'
+        }`}
+      >
+        <Link to="/" className="shrink-0 focus:outline-hidden" onClick={() => setOpen(false)}>
+          <img
+            src="/duro-maker-logo.png"
+            alt="Duro Maker Interiors"
+            className={`w-auto transition-all duration-500 ${
+              isLightNav ? 'brightness-0 invert' : ''
+            } ${scrolled ? 'h-12 md:h-14' : 'h-14 md:h-18'}`}
+          />
+        </Link>
+
+        <nav aria-label="Main" className="hidden md:flex items-center gap-10 text-sm font-medium tracking-wide">
+          {NAV_LINKS.map(([to, label]) => (
+            <NavLink
+              key={to}
+              to={to}
+              className={({ isActive }) =>
+                `relative pb-1 transition-colors ${
+                  isActive
+                    ? 'after:w-full font-semibold'
+                    : 'hover:opacity-75 after:w-0 hover:after:w-full'
+                } after:absolute after:left-0 after:-bottom-0.5 after:h-px after:bg-current after:transition-all after:duration-300`
+              }
+            >
+              {label}
+            </NavLink>
+          ))}
+          <a
+            href={INSTAGRAM_URL}
+            target="_blank"
+            rel="noreferrer"
+            className="hover:opacity-70 transition-opacity"
+          >
+            Instagram
+          </a>
+        </nav>
+
+        <button
+          aria-label={open ? 'Close Menu' : 'Open Menu'}
+          className={`md:hidden w-9 h-7 relative flex items-center justify-center focus:outline-hidden ${
+            isLightNav && !open ? 'text-ivory' : 'text-charcoal'
+          }`}
+          onClick={() => setOpen(!open)}
+        >
+          <motion.span
+            className="absolute left-0 w-full h-0.5 bg-current rounded-full"
+            animate={{ top: open ? 13 : 4, rotate: open ? 45 : 0 }}
+            transition={{ duration: 0.3 }}
+          />
+          <motion.span
+            className="absolute left-0 w-full h-0.5 bg-current rounded-full"
+            animate={{ top: open ? 13 : 20, rotate: open ? -45 : 0 }}
+            transition={{ duration: 0.3 }}
+          />
+        </button>
+      </header>
+
+      <AnimatePresence>
+        {open && (
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+            className="fixed inset-0 z-50 bg-charcoal text-ivory flex flex-col justify-between p-8 md:p-16 overflow-y-auto"
+          >
+            <div className="flex items-center justify-between border-b border-ivory/15 pb-6">
+              <Link to="/" onClick={() => setOpen(false)}>
+                <img
+                  src="/duro-maker-logo.png"
+                  alt="Duro Maker Interiors"
+                  className="h-12 w-auto brightness-0 invert"
+                />
+              </Link>
+              <button
+                aria-label="Close Menu"
+                className="p-2 text-ivory hover:opacity-75"
+                onClick={() => setOpen(false)}
+              >
+                <X size={28} />
+              </button>
+            </div>
+
+            <nav className="flex flex-col gap-6 my-auto py-10">
+              {NAV_LINKS.map(([to, label]) => (
+                <Link
+                  key={to}
+                  to={to}
+                  onClick={() => setOpen(false)}
+                  className="display text-4xl sm:text-5xl hover:text-beige transition-colors"
+                >
+                  {label}
+                </Link>
+              ))}
+              <a
+                href={INSTAGRAM_URL}
+                target="_blank"
+                rel="noreferrer"
+                onClick={() => setOpen(false)}
+                className="display text-4xl sm:text-5xl hover:text-beige transition-colors"
+              >
+                Instagram
+              </a>
+            </nav>
+
+            <div className="border-t border-ivory/15 pt-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4 text-sm text-beige">
+              <div className="flex flex-col gap-2">
+                <a href={`tel:${CONTACT_PHONE}`} className="inline-flex items-center gap-2 hover:text-ivory">
+                  <Phone size={16} /> {CONTACT_PHONE}
+                </a>
+                <a href={`mailto:${CONTACT_EMAIL}`} className="inline-flex items-center gap-2 hover:text-ivory">
+                  <Mail size={16} /> {CONTACT_EMAIL}
+                </a>
+              </div>
+              <div className="flex gap-4">
+                <a href={WHATSAPP_URL} target="_blank" rel="noreferrer" className="underline hover:text-ivory">
+                  WhatsApp
+                </a>
+                <a href={INSTAGRAM_URL} target="_blank" rel="noreferrer" className="underline hover:text-ivory">
+                  Instagram
+                </a>
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </>
+  );
+}
