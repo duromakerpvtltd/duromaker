@@ -114,7 +114,7 @@ function Contact() {
           <InteriorImage
             photo={contactImage}
             alt={contactImage.alt}
-            className="aspect-[4/5] w-full object-cover"
+            className="aspect-4/5 w-full object-cover"
             sizes="(min-width: 768px) 40vw, 100vw"
           />
           <figcaption className="mt-3 flex flex-wrap gap-x-4 gap-y-2 text-xs text-earth">
@@ -175,7 +175,7 @@ export default function App() {
   return (
     <>
       {!ready && <Preloader onDone={() => setReady(true)} />}
-      <a href="#main" className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:bg-ivory focus:p-3">
+      <a href="#main" className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-100 focus:bg-ivory focus:p-3">
         Skip to content
       </a>
       <Navbar />

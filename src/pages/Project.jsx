@@ -93,7 +93,7 @@ export default function Project() {
               onClick={() => setLightboxIndex(galleryIndex)}
               className="group cursor-zoom-in text-left"
             >
-              <div className={`overflow-hidden ${entry.orientation === 'portrait' ? 'aspect-[4/5]' : entry.orientation === 'square' ? 'aspect-square' : 'aspect-[5/4]'}`}>
+              <div className={`overflow-hidden ${entry.orientation === 'portrait' ? 'aspect-4/5' : entry.orientation === 'square' ? 'aspect-square' : 'aspect-5/4'}`}>
                 <InteriorImage
                   photo={entry}
                   className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"

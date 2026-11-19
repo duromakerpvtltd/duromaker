@@ -59,7 +59,7 @@ export default function Store() {
                   transition={{ duration: reduceMotion ? 0 : 0.35 }}
                   className="group flex flex-col"
                 >
-                  <div className={`overflow-hidden bg-cream ${image.orientation === 'portrait' ? 'aspect-[4/5]' : image.orientation === 'square' ? 'aspect-square' : 'aspect-[4/3]'}`}>
+                  <div className={`overflow-hidden bg-cream ${image.orientation === 'portrait' ? 'aspect-4/5' : image.orientation === 'square' ? 'aspect-square' : 'aspect-4/3'}`}>
                     <InteriorImage
                       photo={image}
                       alt={image.alt}

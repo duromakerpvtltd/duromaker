@@ -47,7 +47,7 @@ export default function About() {
               <Img
                 src={photo}
                 alt={photo.alt}
-                className={`w-full ${photo.orientation === 'portrait' ? 'aspect-[4/5]' : photo.orientation === 'square' ? 'aspect-square' : 'aspect-[5/4]'}`}
+                className={`w-full ${photo.orientation === 'portrait' ? 'aspect-4/5' : photo.orientation === 'square' ? 'aspect-square' : 'aspect-5/4'}`}
               />
               <figcaption className="mt-3">
                 <span className="display text-2xl">{photo.title}</span>

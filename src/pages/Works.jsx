@@ -78,13 +78,13 @@ export default function Works() {
                   onClick={() => setLightboxIndex(index)}
                   className="block w-full cursor-zoom-in text-left"
                 >
-                <div className={`relative overflow-hidden bg-cream ${entry.orientation === 'portrait' ? 'aspect-[4/5]' : entry.orientation === 'square' ? 'aspect-square' : 'aspect-[5/4]'}`}>
+                <div className={`relative overflow-hidden bg-cream ${entry.orientation === 'portrait' ? 'aspect-4/5' : entry.orientation === 'square' ? 'aspect-square' : 'aspect-5/4'}`}>
                   <InteriorImage
                     photo={entry}
                     className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
                     sizes="(min-width: 1280px) 30vw, (min-width: 640px) 48vw, 100vw"
                   />
-                  <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-charcoal/75 to-transparent px-5 pb-5 pt-16 text-ivory">
+                  <div className="absolute inset-x-0 bottom-0 bg-linear-to-t from-charcoal/75 to-transparent px-5 pb-5 pt-16 text-ivory">
                     <h2 className="display text-2xl md:text-3xl">{entry.title}</h2>
                   </div>
                 </div>

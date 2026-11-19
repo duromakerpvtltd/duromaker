@@ -48,7 +48,7 @@ export default function InteriorImage({
       sizes={sizes}
       alt={alt || (typeof image === 'object' ? image?.alt : '')}
       loading={loading}
-      fetchPriority={fetchPriority}
+      fetchpriority={fetchPriority}
       decoding="async"
       onError={() => {
         if (failed) setFallbackFailed(true);

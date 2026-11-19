@@ -38,7 +38,7 @@ export default function Lightbox({ images, index, setIndex, title }) {
       onMouseDown={(event) => {
         if (event.target === event.currentTarget) setIndex(null);
       }}
-      className="fixed inset-0 z-[80] flex flex-col items-center justify-center bg-charcoal/95 p-5 text-ivory"
+      className="fixed inset-0 z-80 flex flex-col items-center justify-center bg-charcoal/95 p-5 text-ivory"
     >
       <InteriorImage
         photo={image}

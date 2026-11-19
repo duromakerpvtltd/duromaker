@@ -26,7 +26,7 @@ export default function Services() {
         alt={serviceHero.alt}
         loading="eager"
         fetchPriority="high"
-        className="aspect-[4/3] w-full object-cover md:col-span-5 md:col-start-8"
+        className="aspect-4/3 w-full object-cover md:col-span-5 md:col-start-8"
       />
     </section>
 
@@ -65,7 +65,7 @@ export default function Services() {
                   photo={getInteriorImage(service.imageId)}
                   alt={getInteriorImage(service.imageId).alt}
                   loading="lazy"
-                  className="aspect-[16/10] w-full object-cover"
+                  className="aspect-16/10 w-full object-cover"
                 />
                 <p className="max-w-2xl text-earth">{service.description}</p>
               </div>

@@ -39,7 +39,7 @@ export default function Home({ ready }) {
   }, [ready]);
 
   return <>
-    <section ref={heroRef} className="relative min-h-[100dvh] overflow-hidden text-ivory">
+    <section ref={heroRef} className="relative min-h-dvh overflow-hidden text-ivory">
       <InteriorImage
         photo={heroImage}
         className="hero-img absolute inset-0 h-full w-full object-cover"
@@ -49,7 +49,7 @@ export default function Home({ ready }) {
         sizes="100vw"
       />
       <div className="absolute inset-0 bg-charcoal/40" />
-      <div className="relative flex min-h-[100dvh] flex-col justify-end px-6 pb-16 md:px-16 md:pb-20">
+      <div className="relative flex min-h-dvh flex-col justify-end px-6 pb-16 md:px-16 md:pb-20">
         <h1 className="display text-[8.5vw] leading-[1.05] md:text-[8vw]">
           <span className="mask block"><span className="hero-heading-line block">Turning empty spaces</span></span>
           <span className="mask block md:ml-[10vw]"><span className="hero-heading-line block">into experiences.</span></span>
@@ -82,7 +82,7 @@ export default function Home({ ready }) {
       </div>
       <Img
         src={livingImage}
-        className="aspect-[4/5] md:col-span-5 md:col-start-8"
+        className="aspect-4/5 md:col-span-5 md:col-start-8"
         alt={livingImage.alt}
       />
     </section>
@@ -99,7 +99,7 @@ export default function Home({ ready }) {
             to={`/works?category=${encodeURIComponent(space.category)}`}
             className={`group block ${space.className}`}
           >
-            <div className={`overflow-hidden ${space.title === 'Bedrooms' ? 'aspect-[4/5]' : 'aspect-[4/3]'}`}>
+            <div className={`overflow-hidden ${space.title === 'Bedrooms' ? 'aspect-4/5' : 'aspect-4/3'}`}>
               <InteriorImage
                 photo={space.image}
                 alt={space.image.alt}
@@ -133,7 +133,7 @@ export default function Home({ ready }) {
       <InteriorImage
         photo={architectureImage}
         alt={architectureImage.alt}
-        className="aspect-[2/1] w-full object-cover"
+        className="aspect-2/1 w-full object-cover"
         sizes="100vw"
       />
       <p className="display mt-5 text-3xl md:text-4xl">Architecture, proportion, and light.</p>
@@ -148,7 +148,7 @@ export default function Home({ ready }) {
       </div>
       <Img
         src={detailImage}
-        className="aspect-[4/3] md:col-span-6 md:col-start-7"
+        className="aspect-4/3 md:col-span-6 md:col-start-7"
         alt={detailImage.alt}
       />
     </section>

@@ -66,7 +66,7 @@ export default function Search({ open, setOpen }) {
       onMouseDown={(event) => {
         if (event.target === event.currentTarget) close();
       }}
-      className="fixed inset-0 z-[90] overflow-y-auto bg-ivory px-6 pb-16 pt-24 md:px-16"
+      className="fixed inset-0 z-90 overflow-y-auto bg-ivory px-6 pb-16 pt-24 md:px-16"
     >
       <button
         type="button"
