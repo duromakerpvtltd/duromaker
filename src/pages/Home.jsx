@@ -1,80 +1,21 @@
-import { useEffect, useRef } from 'react';
-import { Link } from 'react-router-dom';
-import gsap from 'gsap';
-import { PROJECTS, SERVICES, INSTAGRAM_URL } from '../data';
-
-export default function Home({ ready }) {
-  const hero = useRef(null);
-  const project = PROJECTS[0];
-
-  useEffect(() => {
-    if (!ready) return;
-    const context = gsap.context(() => {
-      gsap.timeline()
-        .from('.hero-img', { scale: 1.08, opacity: 0, duration: 1.2, ease: 'power3.out' })
-        .from('.hero-line', { yPercent: 110, stagger: 0.1, duration: 0.9, ease: 'power3.out' }, '-=.7')
-        .from('.hero-sub', { opacity: 0, y: 16, duration: 0.7 }, '-=.4');
-    }, hero);
-    return () => context.revert();
-  }, [ready]);
-
-  return <>
-    <section ref={hero} className="relative min-h-[100dvh] overflow-hidden text-ivory">
-      <img className="hero-img absolute inset-0 h-full w-full object-cover" src={project.image} alt="Completed interior project in CDA Sector 6, Cuttack"/>
-      <div className="absolute inset-0 bg-charcoal/45"/>
-      <div className="relative flex min-h-[100dvh] flex-col justify-end px-6 pb-16 md:px-16 md:pb-20">
-        <h1 className="display text-[9.5vw] md:text-[8vw]">
-          <span className="mask block"><span className="hero-line block">Turning empty spaces</span></span>
-          <span className="mask block"><span className="hero-line block italic">into experiences.</span></span>
-        </h1>
-        <div className="hero-sub mt-7 flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
-          <p className="max-w-sm">Space planning, interior styling, and bespoke interiors.</p>
-          <div className="flex flex-wrap gap-3">
-            <Link to="/store" className="border border-ivory/70 px-6 py-3 transition hover:bg-ivory hover:text-charcoal">Explore services</Link>
-            <Link to="/works" className="border border-ivory/70 px-6 py-3 transition hover:bg-ivory hover:text-charcoal">See our work</Link>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section className="px-6 py-24 md:px-16">
-      <div className="mb-12 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
-        <div>
-          <h2 className="display text-5xl md:text-7xl">What we do</h2>
-          <p className="mt-4 max-w-xl">Interior services from the DURO MAKER INTERIOR studio.</p>
-        </div>
-        <Link to="/store" className="border-b border-charcoal pb-1">View services</Link>
-      </div>
-      <div className="grid gap-8 md:grid-cols-3">
-        {SERVICES.map((service) => <article key={service.title} className="border-t border-earth/50 pt-5">
-          <h3 className="display text-3xl">{service.title}</h3>
-          <p className="mt-3 max-w-sm text-earth">{service.description}</p>
-        </article>)}
-      </div>
-    </section>
-
-    <section className="bg-cream px-6 py-20 md:px-16">
-      <div className="grid items-center gap-8 md:grid-cols-12">
-        <div className="md:col-span-5">
-          <h2 className="display text-4xl md:text-6xl">Recent work in Cuttack</h2>
-          <p className="mt-5 max-w-md">{project.description} The studio identifies the location as {project.location}.</p>
-          <a href={project.instagramUrl} target="_blank" rel="noreferrer" className="mt-7 inline-block border-b border-charcoal pb-1">View this project on Instagram</a>
-        </div>
-        <a href={project.instagramUrl} target="_blank" rel="noreferrer" className="group block overflow-hidden md:col-span-6 md:col-start-7">
-          <img src={project.image} alt="Interior project at CDA Sector 6, Cuttack" className="aspect-[4/5] w-full object-cover transition duration-700 group-hover:scale-[1.02]"/>
-        </a>
-      </div>
-    </section>
-
-    <section className="bg-charcoal px-6 py-24 text-ivory md:px-16">
-      <div className="max-w-3xl">
-        <h2 className="display text-5xl md:text-8xl">Let’s design your space.</h2>
-        <p className="mt-6 max-w-xl text-beige">Contact DURO MAKER INTERIOR or send a direct message on Instagram to discuss a project.</p>
-        <div className="mt-8 flex flex-wrap gap-6">
-          <Link to="/contact" className="border border-ivory/60 px-7 py-3 transition hover:bg-ivory hover:text-charcoal">Contact the studio</Link>
-          <a href={INSTAGRAM_URL} target="_blank" rel="noreferrer" className="self-center border-b border-ivory/60 pb-1">Instagram</a>
-        </div>
-      </div>
-    </section>
-  </>;
-}
+import {useEffect,useRef,useState} from 'react';import {Link} from 'react-router-dom';import gsap from 'gsap';import {AnimatePresence,motion} from 'framer-motion';
+import {Lines,Img} from '../components/Reveal';import {IMG,PROJECTS} from '../data';
+const SERVICES=['Residential Interiors','Commercial Interiors','Space Planning','Furniture Design','Turnkey Interior Solutions'];
+const QUOTES=[['They listened first, then designed a home that feels like us.','Ananya & Rohan, The Linen House'],['Our team now argues over who gets the desk by the window.','Meera Shah, Atrium Offices'],['Every detail was resolved before it reached the site.','Kabir Rao, Villa Sorrel']];
+export default function Home({ready}){const h=useRef();const [q,setQ]=useState(0);
+ useEffect(()=>{if(!ready)return;const c=gsap.context(()=>{const t=gsap.timeline();t.from('.hero-img',{scale:1.25,clipPath:'inset(0 0 100% 0)',duration:1.6,ease:'power4.out'}).from('.hl',{yPercent:110,stagger:.12,duration:1.2,ease:'power4.out'},'-=.8').from('.hero-sub',{opacity:0,y:20,duration:1},'-=.5')},h);return()=>c.revert()},[ready]);
+ useEffect(()=>{const i=setInterval(()=>setQ(v=>(v+1)%QUOTES.length),5500);return()=>clearInterval(i)},[]);
+ return <>
+ <section ref={h} className="relative h-screen overflow-hidden text-ivory"><img className="hero-img absolute inset-0 w-full h-full object-cover" src={IMG.hero} alt="Interior"/><div className="absolute inset-0 bg-charcoal/35"/>
+  <div className="relative h-full flex flex-col justify-end px-6 md:px-16 pb-20"><h1 className="display text-[16vw] md:text-[11vw]"><span className="mask"><span className="hl block">Spaces that</span></span><span className="mask"><span className="hl block italic md:ml-[12vw]">hold quiet</span></span></h1>
+  <div className="hero-sub flex flex-col md:flex-row md:items-end justify-between gap-6 mt-8"><p className="max-w-sm">DURO MAKER INTERIORS designs spaces where architecture, material and light are resolved as one.</p><Link to="/works" className="border border-ivory/60 px-8 py-3 hover:bg-ivory hover:text-charcoal transition">Explore Projects</Link></div>
+  <div className="absolute right-6 md:right-16 bottom-6 w-px h-14 bg-ivory/30 overflow-hidden"><motion.div className="w-full h-6 bg-ivory" animate={{y:[-24,56]}} transition={{repeat:Infinity,duration:1.8}}/></div></div></section>
+ <section className="px-6 md:px-16 py-32 grid md:grid-cols-12 gap-10"><Lines className="display text-5xl md:text-7xl md:col-span-7" text="We shape rooms around the way people actually live, and build every piece to last."/><Img src={IMG.d} className="md:col-span-4 md:col-start-9 aspect-[3/4]"/></section>
+ <section className="px-6 md:px-16 pb-32 space-y-32">{PROJECTS.slice(0,3).map((p,i)=><Link key={p.slug} to={`/works/${p.slug}`} className={`group block md:w-[62%] ${i%2?'md:ml-auto':''}`}><div className="overflow-hidden aspect-[4/3]"><img src={p.img} alt={p.title} className="w-full h-full object-cover transition duration-[1400ms] group-hover:scale-105"/></div>
+  <div className="flex justify-between items-baseline mt-4"><h3 className="display text-4xl">{p.title}</h3><span className="text-sm text-earth">{p.location}, {p.category}</span></div></Link>)}
+  <Link to="/works" className="inline-block border-b border-charcoal pb-1">View all projects</Link></section>
+ <section className="bg-cream px-6 md:px-16 py-28"><h2 className="display text-5xl mb-12">Our expertise</h2>{SERVICES.map(s=><div key={s} className="group flex justify-between items-center border-t border-earth/40 py-7 hover:pl-6 transition-all duration-500"><span className="display text-3xl md:text-5xl">{s}</span><span className="hidden md:block text-sm text-earth opacity-0 group-hover:opacity-100 transition">Learn more</span></div>)}</section>
+ <section className="relative h-[90vh] overflow-hidden text-ivory flex items-center"><Img src={IMG.f} className="absolute inset-0"/><div className="absolute inset-0 bg-charcoal/50"/><Lines className="display relative px-6 md:px-16 text-5xl md:text-8xl" text="Design is what remains when everything unnecessary has been removed."/></section>
+ <section className="px-6 md:px-16 py-32 min-h-[70vh] flex flex-col justify-center"><AnimatePresence mode="wait"><motion.div key={q} initial={{opacity:0,y:30}} animate={{opacity:1,y:0}} exit={{opacity:0,y:-30}} transition={{duration:.6}}><p className="display text-4xl md:text-7xl max-w-5xl">“{QUOTES[q][0]}”</p><p className="mt-8 text-earth">{QUOTES[q][1]}</p></motion.div></AnimatePresence>
+  <div className="flex gap-3 mt-10">{QUOTES.map((_,i)=><button key={i} aria-label={`Testimonial ${i+1}`} onClick={()=>setQ(i)} className={`h-px w-12 ${i===q?'bg-charcoal':'bg-beige'}`}/>)}</div></section>
+ <section className="bg-charcoal text-ivory px-6 md:px-16 py-32 text-center"><Lines className="display text-6xl md:text-9xl" text="Let’s Create Something Beautiful."/><Link to="/contact" className="inline-block mt-12 border border-ivory/60 px-10 py-4 hover:bg-ivory hover:text-charcoal transition">Contact Us</Link></section></>}
