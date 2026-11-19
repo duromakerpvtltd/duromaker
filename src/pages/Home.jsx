@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import gsap from 'gsap';
 import { Img, Lines } from '../components/Reveal';
 import InteriorImage from '../components/InteriorImage';
-import { INSTAGRAM_URL, SERVICES } from '../data';
+import { INSTAGRAM_URL } from '../data';
 import { getInteriorImage } from '../data/interiorGallery';
 
 const heroImage = getInteriorImage(7148846);
@@ -151,22 +151,6 @@ export default function Home({ ready }) {
         className="aspect-4/3 md:col-span-6 md:col-start-7"
         alt={detailImage.alt}
       />
-    </section>
-
-    <section className="bg-cream px-6 py-24 md:px-16 md:py-28">
-      <h2 className="display mb-10 text-5xl md:text-6xl">Our services</h2>
-      <div>
-        {SERVICES.map((service) => (
-          <Link
-            key={service.id}
-            to="/services"
-            className="group flex items-center justify-between gap-5 border-t border-earth/30 py-6 transition-colors hover:text-earth"
-          >
-            <span className="display text-2xl md:text-4xl">{service.title}</span>
-            <span aria-hidden="true" className="text-lg transition-transform group-hover:translate-x-1">→</span>
-          </Link>
-        ))}
-      </div>
     </section>
 
     <section className="bg-charcoal px-6 py-24 text-ivory md:px-16 md:py-32">
