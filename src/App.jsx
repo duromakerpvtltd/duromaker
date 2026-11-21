@@ -74,21 +74,29 @@ function Contact() {
                     {CONTACT_EMAIL}
                   </a>
                 </div>
-              </div>
-            </div>
-
-            <div className="flex flex-col gap-6">
-              <div className="border-t border-earth/30 pt-6">
-                <span className="text-xs font-medium uppercase tracking-wider text-earth">Instant Messaging</span>
-                <div className="mt-3 flex flex-wrap gap-4">
+                <div className="mt-4 flex flex-wrap gap-4">
+                  <a
+                    href={`mailto:${CONTACT_EMAIL}`}
+                    className="inline-flex items-center gap-2 border border-charcoal px-5 py-3 text-sm transition-colors hover:bg-charcoal hover:text-ivory"
+                  >
+                    <Mail size={16} /> Email Us
+                  </a>
                   <a
                     href={WHATSAPP_URL}
                     target="_blank"
                     rel="noreferrer"
                     className="inline-flex items-center gap-2 border border-charcoal px-5 py-3 text-sm transition-colors hover:bg-charcoal hover:text-ivory"
                   >
-                    <MessageSquare size={16} /> WhatsApp Us
+                    <MessageSquare size={16} /> Message Us
                   </a>
+                </div>
+              </div>
+            </div>
+
+            <div className="flex flex-col gap-6">
+              <div className="border-t border-earth/30 pt-6">
+                <span className="text-xs font-medium uppercase tracking-wider text-earth">Connect on Instagram</span>
+                <div className="mt-3 flex flex-wrap gap-4">
                   <a
                     href={INSTAGRAM_URL}
                     target="_blank"
