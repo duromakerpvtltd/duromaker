@@ -16,7 +16,7 @@ import Works from './pages/Works';
 import Project from './pages/Project';
 import Services from './pages/Services';
 import Store from './pages/Store';
-import { CONTACT_EMAIL, CONTACT_PHONE, INSTAGRAM_URL, LOCATION, WHATSAPP_URL } from './data';
+import { CONTACT_EMAIL, CONTACT_PHONE, INSTAGRAM_URL, LOCATION, MAP_EMBED_URL, MAP_URL, WHATSAPP_URL } from './data';
 import { getInteriorImage } from './data/interiorGallery';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -102,9 +102,23 @@ function Contact() {
 
               <div className="border-t border-earth/30 pt-6">
                 <span className="text-xs font-medium uppercase tracking-wider text-earth">Location</span>
-                <p className="mt-2 inline-flex items-center gap-2 text-lg">
+                <a
+                  href={MAP_URL}
+                  target="_blank"
+                  rel="noreferrer"
+                  aria-label={`Open ${LOCATION} in Google Maps`}
+                  className="mt-2 inline-flex items-center gap-2 text-lg transition-colors hover:text-earth"
+                >
                   <MapPin size={18} className="text-earth" /> {LOCATION}
-                </p>
+                </a>
+                <iframe
+                  src={MAP_EMBED_URL}
+                  title={`Map to ${LOCATION}`}
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                  allowFullScreen
+                  className="mt-4 aspect-video w-full border-0"
+                />
               </div>
             </div>
           </div>

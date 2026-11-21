@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { Link, NavLink, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Mail, Phone, Instagram, Search as SearchIcon, X } from 'lucide-react';
-import { CONTACT_EMAIL, CONTACT_PHONE, INSTAGRAM_URL, WHATSAPP_URL } from '../data';
+import { Mail, Phone, Search as SearchIcon, X } from 'lucide-react';
+import { CONTACT_EMAIL, CONTACT_PHONE, WHATSAPP_URL } from '../data';
 import SearchDialog from './Search';
 
 const NAV_LINKS = [
@@ -75,14 +75,6 @@ export default function Navbar() {
               {label}
             </NavLink>
           ))}
-          <a
-            href={INSTAGRAM_URL}
-            target="_blank"
-            rel="noreferrer"
-            className="hover:opacity-70 transition-opacity"
-          >
-            Instagram
-          </a>
         </nav>
 
         <button
@@ -163,15 +155,6 @@ export default function Navbar() {
               >
                 Search
               </button>
-              <a
-                href={INSTAGRAM_URL}
-                target="_blank"
-                rel="noreferrer"
-                onClick={() => setOpen(false)}
-                className="display text-4xl sm:text-5xl hover:text-beige transition-colors"
-              >
-                Instagram
-              </a>
             </nav>
 
             <div className="border-t border-ivory/15 pt-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4 text-sm text-beige">
@@ -186,9 +169,6 @@ export default function Navbar() {
               <div className="flex gap-4">
                 <a href={WHATSAPP_URL} target="_blank" rel="noreferrer" className="underline hover:text-ivory">
                   WhatsApp
-                </a>
-                <a href={INSTAGRAM_URL} target="_blank" rel="noreferrer" className="underline hover:text-ivory">
-                  Instagram
                 </a>
               </div>
             </div>

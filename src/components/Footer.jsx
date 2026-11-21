@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { Instagram, Mail, Phone, MessageSquare } from 'lucide-react';
-import { CONTACT_EMAIL, CONTACT_PHONE, INSTAGRAM_URL, LOCATION, WHATSAPP_URL } from '../data';
+import { CONTACT_EMAIL, CONTACT_PHONE, INSTAGRAM_URL, LOCATION, MAP_URL, WHATSAPP_URL } from '../data';
 
 const FOOTER_LINKS = [
   ['/', 'Home'],
@@ -29,7 +29,15 @@ export default function Footer() {
             <p className="mt-4 max-w-sm text-sm leading-relaxed text-beige">
               Interior architecture, space planning, and bespoke furniture crafted for everyday living.
             </p>
-            <p className="mt-2 text-xs text-earth">Serving {LOCATION}</p>
+            <a
+              href={MAP_URL}
+              target="_blank"
+              rel="noreferrer"
+              aria-label={`Open ${LOCATION} in Google Maps`}
+              className="mt-2 inline-block max-w-sm text-xs leading-relaxed text-earth transition-colors hover:text-ivory"
+            >
+              {LOCATION}
+            </a>
           </div>
 
           <nav aria-label="Footer navigation" className="md:col-span-4">
