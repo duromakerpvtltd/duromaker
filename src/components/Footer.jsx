@@ -41,7 +41,7 @@ export default function Footer() {
           </div>
 
           <nav aria-label="Footer navigation" className="md:col-span-4">
-            <h2 className="mb-4 text-xs font-medium uppercase tracking-wider text-earth">Explore</h2>
+            <h2 className="mb-4 text-xs font-medium text-earth">Explore</h2>
             <div className="grid grid-cols-2 gap-x-6 gap-y-3 text-sm">
               {FOOTER_LINKS.map(([to, name]) => (
                 <Link key={to} to={to} className="transition-colors hover:text-beige">
@@ -52,7 +52,7 @@ export default function Footer() {
           </nav>
 
           <div className="md:col-span-4">
-            <h2 className="mb-4 text-xs font-medium uppercase tracking-wider text-earth">Get in touch</h2>
+            <h2 className="mb-4 text-xs font-medium text-earth">Get in touch</h2>
             <div className="grid gap-y-3 text-sm text-beige">
               <a
                 href={`tel:${CONTACT_PHONE}`}

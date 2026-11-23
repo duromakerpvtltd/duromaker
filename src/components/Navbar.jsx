@@ -41,7 +41,7 @@ export default function Navbar() {
   return (
     <>
       <header
-        className={`fixed top-0 inset-x-0 z-40 flex items-center justify-between px-6 md:px-16 transition-all duration-500 ${
+        className={`fixed top-0 inset-x-0 z-40 flex items-center justify-between px-6 md:px-16 transition-[background-color,color,border-color] duration-200 ${
           scrolled
             ? 'py-3 md:py-4 bg-ivory/95 backdrop-blur-md text-charcoal border-b border-earth/20 shadow-xs'
             : isLightNav
@@ -49,27 +49,31 @@ export default function Navbar() {
             : 'py-4 md:py-6 bg-ivory/85 backdrop-blur-sm text-charcoal border-b border-earth/15'
         }`}
       >
-        <Link to="/" className="shrink-0 focus:outline-hidden" onClick={() => setOpen(false)}>
+        <Link
+          to="/"
+          className="shrink-0 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-current"
+          onClick={() => setOpen(false)}
+        >
           <img
             src="/duro-maker-logo.png"
             alt="Duro Maker Interiors"
-            className={`w-auto transition-all duration-500 ${
+            className={`w-auto transition-[filter] duration-200 ${
               isLightNav ? 'brightness-0 invert' : ''
             } ${scrolled ? 'h-12 md:h-14' : 'h-14 md:h-18'}`}
           />
         </Link>
 
-        <nav aria-label="Main" className="hidden md:flex items-center gap-10 text-sm font-medium tracking-wide">
+        <nav aria-label="Main" className="hidden md:flex items-center gap-10 text-sm font-medium">
           {NAV_LINKS.map(([to, label]) => (
             <NavLink
               key={to}
               to={to}
               className={({ isActive }) =>
-                `relative pb-1 transition-colors ${
+                `relative pb-1 transition-colors after:absolute after:left-0 after:-bottom-0.5 after:h-px after:w-full after:origin-left after:bg-current after:transition-transform after:duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-current ${
                   isActive
-                    ? 'after:w-full font-semibold'
-                    : 'hover:opacity-75 after:w-0 hover:after:w-full'
-                } after:absolute after:left-0 after:-bottom-0.5 after:h-px after:bg-current after:transition-all after:duration-300`
+                    ? 'font-semibold after:scale-x-100'
+                    : 'after:scale-x-0 hover:opacity-75 hover:after:scale-x-100'
+                }`
               }
             >
               {label}
@@ -81,7 +85,7 @@ export default function Navbar() {
           type="button"
           aria-label="Search projects, services, and products"
           onClick={() => setSearchOpen(true)}
-          className={`ml-auto mr-4 p-2 transition-opacity hover:opacity-70 md:ml-8 md:mr-0 ${
+          className={`ml-auto mr-4 p-2 transition-opacity hover:opacity-70 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-current md:ml-8 md:mr-0 ${
             isLightNav && !open ? 'text-ivory' : 'text-charcoal'
           }`}
         >
@@ -90,7 +94,7 @@ export default function Navbar() {
 
         <button
           aria-label={open ? 'Close Menu' : 'Open Menu'}
-          className={`md:hidden w-9 h-7 relative flex items-center justify-center focus:outline-hidden ${
+          className={`md:hidden w-9 h-7 relative flex items-center justify-center focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-current ${
             isLightNav && !open ? 'text-ivory' : 'text-charcoal'
           }`}
           onClick={() => setOpen(!open)}
@@ -98,12 +102,12 @@ export default function Navbar() {
           <motion.span
             className="absolute left-0 w-full h-0.5 bg-current rounded-full"
             animate={{ top: open ? 13 : 4, rotate: open ? 45 : 0 }}
-            transition={{ duration: 0.3 }}
+            transition={{ duration: 0.18 }}
           />
           <motion.span
             className="absolute left-0 w-full h-0.5 bg-current rounded-full"
             animate={{ top: open ? 13 : 20, rotate: open ? -45 : 0 }}
-            transition={{ duration: 0.3 }}
+            transition={{ duration: 0.18 }}
           />
         </button>
       </header>
@@ -111,10 +115,10 @@ export default function Navbar() {
       <AnimatePresence>
         {open && (
           <motion.div
-            initial={{ opacity: 0, y: -20 }}
+            initial={{ opacity: 0, y: -8 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+            exit={{ opacity: 0, y: -8 }}
+            transition={{ duration: 0.18, ease: [0.22, 1, 0.36, 1] }}
             className="fixed inset-0 z-50 bg-charcoal text-ivory flex flex-col justify-between p-8 md:p-16 overflow-y-auto"
           >
             <div className="flex items-center justify-between border-b border-ivory/15 pb-6">
