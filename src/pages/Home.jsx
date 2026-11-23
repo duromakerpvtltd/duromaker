@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import gsap from 'gsap';
 import { Img, Lines } from '../components/Reveal';
 import InteriorImage from '../components/InteriorImage';
-import { INSTAGRAM_URL } from '../data';
 import { getInteriorImage } from '../data/interiorGallery';
 
 const heroImage = getInteriorImage(7148846);
@@ -61,13 +60,13 @@ export default function Home({ ready }) {
           <div className="flex flex-wrap gap-3">
             <Link
               to="/services"
-              className="border border-ivory bg-ivory px-6 py-3 text-sm text-charcoal transition-colors hover:bg-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ivory"
+              className="border border-ivory bg-ivory px-6 py-3 text-sm text-charcoal transition-colors hover:bg-white focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ivory"
             >
               Our services
             </Link>
             <Link
               to="/works"
-              className="border border-ivory/70 px-6 py-3 text-sm transition-colors hover:bg-ivory hover:text-charcoal focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ivory"
+              className="border border-ivory/70 px-6 py-3 text-sm transition-colors hover:bg-ivory hover:text-charcoal focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ivory"
             >
               Explore interiors
             </Link>
@@ -157,23 +156,6 @@ export default function Home({ ready }) {
         className="aspect-4/3 md:col-span-6 md:col-start-7"
         alt={detailImage.alt}
       />
-    </section>
-
-    <section className="bg-charcoal px-6 py-24 text-ivory md:px-16 md:py-32">
-      <Lines className="display max-w-5xl text-5xl md:text-8xl" text="Plan your interior with us" />
-      <div className="mt-10 flex flex-wrap gap-6">
-        <Link to="/contact" className="border border-ivory/70 px-7 py-3 transition-colors hover:bg-ivory hover:text-charcoal">
-          Contact us
-        </Link>
-        <a
-          href={INSTAGRAM_URL}
-          target="_blank"
-          rel="noreferrer"
-          className="border-b border-ivory/70 py-3 transition-colors hover:text-beige"
-        >
-          Follow on Instagram
-        </a>
-      </div>
     </section>
   </>;
 }

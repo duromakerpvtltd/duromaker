@@ -33,8 +33,8 @@ export function Lines({ text = '', className = '' }) {
   return (
     <h2 ref={containerRef} className={className}>
       {words.map((word, i) => (
-        <span key={i} className="mask inline-block mr-[0.25em]">
-          <span className="reveal-word inline-block">{word}</span>
+        <span key={i} className="mask !inline-block mr-[0.25em]">
+          <span className="reveal-word !inline-block">{word}</span>
         </span>
       ))}
     </h2>

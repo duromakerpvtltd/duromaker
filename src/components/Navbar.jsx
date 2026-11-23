@@ -51,7 +51,7 @@ export default function Navbar() {
       >
         <Link
           to="/"
-          className="shrink-0 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-current"
+          className="shrink-0 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-current"
           onClick={() => setOpen(false)}
         >
           <img
@@ -69,7 +69,7 @@ export default function Navbar() {
               key={to}
               to={to}
               className={({ isActive }) =>
-                `relative pb-1 transition-colors after:absolute after:left-0 after:-bottom-0.5 after:h-px after:w-full after:origin-left after:bg-current after:transition-transform after:duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-current ${
+                `relative pb-1 transition-colors after:absolute after:left-0 after:-bottom-0.5 after:h-px after:w-full after:origin-left after:bg-current after:transition-transform after:duration-200 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-current ${
                   isActive
                     ? 'font-semibold after:scale-x-100'
                     : 'after:scale-x-0 hover:opacity-75 hover:after:scale-x-100'
@@ -85,7 +85,7 @@ export default function Navbar() {
           type="button"
           aria-label="Search projects, services, and products"
           onClick={() => setSearchOpen(true)}
-          className={`ml-auto mr-4 p-2 transition-opacity hover:opacity-70 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-current md:ml-8 md:mr-0 ${
+          className={`ml-auto mr-4 p-2 transition-opacity hover:opacity-70 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-current md:ml-8 md:mr-0 ${
             isLightNav && !open ? 'text-ivory' : 'text-charcoal'
           }`}
         >
@@ -94,7 +94,7 @@ export default function Navbar() {
 
         <button
           aria-label={open ? 'Close Menu' : 'Open Menu'}
-          className={`md:hidden w-9 h-7 relative flex items-center justify-center focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-current ${
+          className={`md:hidden w-9 h-7 relative flex items-center justify-center focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-current ${
             isLightNav && !open ? 'text-ivory' : 'text-charcoal'
           }`}
           onClick={() => setOpen(!open)}
