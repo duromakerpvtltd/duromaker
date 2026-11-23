@@ -17,9 +17,59 @@ import Project from './pages/Project';
 import Services from './pages/Services';
 import Store from './pages/Store';
 import { CONTACT_EMAIL, CONTACT_PHONE, INSTAGRAM_URL, LOCATION, MAP_EMBED_URL, MAP_URL, WHATSAPP_URL } from './data';
-import { getInteriorImage } from './data/interiorGallery';
+import { getInteriorImage, WORKS_GALLERY } from './data/interiorGallery';
 
 gsap.registerPlugin(ScrollTrigger);
+
+const SITE_NAME = 'DURO MAKER INTERIORS';
+const SITE_URL = import.meta.env.VITE_SITE_URL;
+const PAGE_METADATA = {
+  '/': {
+    title: 'Interior Design in Odisha',
+    description: 'Space planning, bespoke interiors, and turnkey solutions across Bhubaneswar, Cuttack, and Odisha.',
+  },
+  '/about': {
+    title: 'About Our Interior Design Studio',
+    description: 'Learn about DURO MAKER INTERIORS and our approach to residential and commercial spaces in Odisha.',
+  },
+  '/services': {
+    title: 'Interior Design Services',
+    description: 'Explore space planning, interior styling, and bespoke interior design services from DURO MAKER INTERIORS.',
+  },
+  '/works': {
+    title: 'Interior Design Inspiration Gallery',
+    description: 'Browse interior design inspiration for homes and commercial spaces. Images are references, not verified Duro Maker projects.',
+  },
+  '/store': {
+    title: 'Interior Design Reference Store',
+    description: 'Browse kitchen, storage, furniture, lighting, and interior-detail references from DURO MAKER INTERIORS.',
+  },
+  '/contact': {
+    title: 'Contact Our Interior Design Studio',
+    description: 'Contact DURO MAKER INTERIORS in Cuttack, Odisha to discuss your residential or commercial interior project.',
+  },
+};
+
+function getPageMetadata(pathname) {
+  const projectMatch = pathname.match(/^\/works\/([^/]+)$/);
+  if (projectMatch) {
+    const slug = projectMatch[1];
+    const reference = WORKS_GALLERY.find((entry) => entry.id === slug);
+    if (reference) {
+      return {
+        title: `${reference.title} | Interior Inspiration`,
+        description: reference.detailedDescription,
+      };
+    }
+
+    return {
+      title: 'Interior Reference Not Found',
+      description: 'This interior inspiration reference is no longer available.',
+    };
+  }
+
+  return PAGE_METADATA[pathname] || PAGE_METADATA['/'];
+}
 
 const Page = ({ children }) => {
   const reduceMotion = useReducedMotion();
@@ -158,6 +208,24 @@ export default function App() {
   const loc = useLocation();
   const [ready, setReady] = useState(false);
   const lenisRef = useRef(null);
+
+  useEffect(() => {
+    const metadata = getPageMetadata(loc.pathname);
+    document.title = `${metadata.title} | ${SITE_NAME}`;
+    document.querySelector('meta[name="description"]')?.setAttribute('content', metadata.description);
+    document.querySelector('meta[property="og:title"]')?.setAttribute('content', document.title);
+    document.querySelector('meta[property="og:description"]')?.setAttribute('content', metadata.description);
+
+    if (SITE_URL) {
+      let canonical = document.querySelector('link[rel="canonical"]');
+      if (!canonical) {
+        canonical = document.createElement('link');
+        canonical.rel = 'canonical';
+        document.head.appendChild(canonical);
+      }
+      canonical.href = new URL(loc.pathname, SITE_URL).href;
+    }
+  }, [loc.pathname]);
 
   useEffect(() => {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return undefined;
