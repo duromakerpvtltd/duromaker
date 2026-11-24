@@ -211,19 +211,29 @@ export default function App() {
 
   useEffect(() => {
     const metadata = getPageMetadata(loc.pathname);
-    document.title = `${metadata.title} | ${SITE_NAME}`;
-    document.querySelector('meta[name="description"]')?.setAttribute('content', metadata.description);
-    document.querySelector('meta[property="og:title"]')?.setAttribute('content', document.title);
-    document.querySelector('meta[property="og:description"]')?.setAttribute('content', metadata.description);
+    const fullTitle = `${metadata.title} | ${SITE_NAME}`;
+    document.title = fullTitle;
 
-    if (SITE_URL) {
+    document.querySelector('meta[name="description"]')?.setAttribute('content', metadata.description);
+    document.querySelector('meta[property="og:title"]')?.setAttribute('content', fullTitle);
+    document.querySelector('meta[property="og:description"]')?.setAttribute('content', metadata.description);
+    document.querySelector('meta[name="twitter:title"]')?.setAttribute('content', fullTitle);
+    document.querySelector('meta[name="twitter:description"]')?.setAttribute('content', metadata.description);
+
+    const baseOrigin = SITE_URL || (typeof window !== 'undefined' ? window.location.origin : 'https://duromaker.vercel.app');
+    try {
+      const canonicalUrl = new URL(loc.pathname, baseOrigin).href;
+      document.querySelector('meta[property="og:url"]')?.setAttribute('content', canonicalUrl);
+
       let canonical = document.querySelector('link[rel="canonical"]');
       if (!canonical) {
         canonical = document.createElement('link');
         canonical.rel = 'canonical';
         document.head.appendChild(canonical);
       }
-      canonical.href = new URL(loc.pathname, SITE_URL).href;
+      canonical.href = canonicalUrl;
+    } catch {
+      // Ignore URL parsing errors
     }
   }, [loc.pathname]);
 

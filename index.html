@@ -8,8 +8,20 @@
       name="description"
       content="DURO MAKER INTERIORS designs and crafts spaces where architecture, material, and light are resolved as one. Space planning, bespoke interiors, and turnkey solutions across Bhubaneswar, Cuttack and Odisha."
     />
+    <meta
+      name="keywords"
+      content="interior design Odisha, interior designer Cuttack, interior designer Bhubaneswar, modular kitchen, luxury interiors, space planning, bespoke furniture, turnkey interior solutions, residential interior, commercial interior, Duro Maker Interiors"
+    />
+    <meta name="author" content="DURO MAKER INTERIORS" />
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
     <meta name="theme-color" content="#242421" />
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://duromaker.vercel.app/" />
     <link rel="icon" type="image/png" href="/duro-maker-logo.png" />
+    <link rel="apple-touch-icon" href="/duro-maker-logo.png" />
+
+    <!-- Performance & Preload -->
     <link
       rel="preload"
       as="image"
@@ -19,17 +31,92 @@
       fetchpriority="high"
     />
 
-    <!-- Open Graph / Meta -->
+    <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="DURO MAKER INTERIORS" />
+    <meta property="og:locale" content="en_IN" />
+    <meta property="og:url" content="https://duromaker.vercel.app/" />
     <meta property="og:title" content="DURO MAKER INTERIORS | Interior Design in Odisha" />
     <meta
       property="og:description"
       content="Interior architecture, space planning, and bespoke furniture crafted for everyday living across Odisha."
     />
-    <meta property="og:image" content="/duro-maker-logo.png" />
+    <meta property="og:image" content="/images/interiors/pexels-7148846-1600.webp" />
+    <meta property="og:image:alt" content="DURO MAKER INTERIORS - Luxury Interior Design Studio in Odisha" />
 
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="DURO MAKER INTERIORS | Interior Design in Odisha" />
+    <meta
+      name="twitter:description"
+      content="Interior architecture, space planning, and bespoke furniture crafted for everyday living across Odisha."
+    />
+    <meta name="twitter:image" content="/images/interiors/pexels-7148846-1600.webp" />
+
+    <!-- Structured Data (JSON-LD Schema) for Rich Snippets & Local SEO -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": ["HomeAndConstructionBusiness", "ProfessionalService"],
+            "@id": "https://duromaker.vercel.app/#business",
+            "name": "DURO MAKER INTERIORS",
+            "alternateName": "Duro Maker Interior Studio",
+            "url": "https://duromaker.vercel.app/",
+            "logo": "https://duromaker.vercel.app/duro-maker-logo.png",
+            "image": "https://duromaker.vercel.app/images/interiors/pexels-7148846-1600.webp",
+            "description": "Space planning, bespoke interiors, modular kitchens, and turnkey interior design solutions across Bhubaneswar, Cuttack, and Odisha.",
+            "telephone": "+919040007947",
+            "email": "duromakerpvtltd@gmail.com",
+            "address": {
+              "@type": "PostalAddress",
+              "streetAddress": "Ground Floor, Hotel Monalisa, Badambadi",
+              "addressLocality": "Cuttack",
+              "addressRegion": "Odisha",
+              "postalCode": "753009",
+              "addressCountry": "IN"
+            },
+            "geo": {
+              "@type": "GeoCoordinates",
+              "latitude": 20.4532,
+              "longitude": 85.8654
+            },
+            "openingHoursSpecification": [
+              {
+                "@type": "OpeningHoursSpecification",
+                "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+                "opens": "10:00",
+                "closes": "20:00"
+              }
+            ],
+            "areaServed": [
+              { "@type": "City", "name": "Cuttack" },
+              { "@type": "City", "name": "Bhubaneswar" },
+              { "@type": "AdministrativeArea", "name": "Odisha" }
+            ],
+            "sameAs": [
+              "https://www.instagram.com/duromaker.interior_studio/",
+              "https://maps.app.goo.gl/JQhMavkxYfUyM6a87?g_st=ic"
+            ],
+            "priceRange": "₹₹"
+          },
+          {
+            "@type": "WebSite",
+            "@id": "https://duromaker.vercel.app/#website",
+            "url": "https://duromaker.vercel.app/",
+            "name": "DURO MAKER INTERIORS",
+            "publisher": {
+              "@id": "https://duromaker.vercel.app/#business"
+            }
+          }
+        ]
+      }
+    </script>
   </head>
   <body>
+    <!-- %GTM_NOSCRIPT% -->
+    <!-- %PIXEL_NOSCRIPT% -->
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
   </body>
