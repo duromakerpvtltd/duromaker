@@ -1,0 +1,13 @@
+{
+  "status": "healthy",
+  "service": "duro-maker-interiors",
+  "version": "1.0.0",
+  "timestamp": "2026-11-24T09:30:00Z",
+  "environment": "production",
+  "checks": {
+    "frontend": "up",
+    "routing": "spa",
+    "assets": "available",
+    "sitemap": "ready"
+  }
+}
