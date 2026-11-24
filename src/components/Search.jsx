@@ -31,8 +31,24 @@ const SEARCH_ITEMS = [
 
 export default function Search({ open, setOpen }) {
   const [query, setQuery] = useState('');
+  const [debouncedQuery, setDebouncedQuery] = useState('');
   const inputRef = useRef(null);
-  const normalizedQuery = query.trim().toLowerCase();
+
+  // Debounce search query to prevent lag on rapid keystrokes (Check 29: Debouncing)
+  useEffect(() => {
+    if (query.trim().length <= 1) {
+      setDebouncedQuery(query);
+      return undefined;
+    }
+
+    const timer = setTimeout(() => {
+      setDebouncedQuery(query);
+    }, 150);
+
+    return () => clearTimeout(timer);
+  }, [query]);
+
+  const normalizedQuery = debouncedQuery.trim().toLowerCase();
   const results = normalizedQuery.length > 1
     ? SEARCH_ITEMS.filter((item) => item.text.toLowerCase().includes(normalizedQuery)).slice(0, 8)
     : [];
@@ -52,6 +68,7 @@ export default function Search({ open, setOpen }) {
   const close = () => {
     setOpen(false);
     setQuery('');
+    setDebouncedQuery('');
   };
 
   return <AnimatePresence>

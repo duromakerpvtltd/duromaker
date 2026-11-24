@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { lazy, Suspense, useEffect, useRef, useState } from 'react';
 import { Routes, Route, useLocation } from 'react-router-dom';
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 import Lenis from 'lenis';
@@ -11,11 +11,29 @@ import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import InteriorImage from './components/InteriorImage';
 import Home from './pages/Home';
-import About from './pages/About';
-import Works from './pages/Works';
-import Project from './pages/Project';
-import Services from './pages/Services';
-import Store from './pages/Store';
+
+// Route-based code splitting for optimal bundle size (Check 33: Bundle Size)
+const About = lazy(() => import('./pages/About'));
+const Works = lazy(() => import('./pages/Works'));
+const Project = lazy(() => import('./pages/Project'));
+const Services = lazy(() => import('./pages/Services'));
+const Store = lazy(() => import('./pages/Store'));
+
+function PageFallback() {
+  return (
+    <div
+      role="status"
+      aria-label="Loading page content"
+      aria-busy="true"
+      className="grid min-h-[50vh] place-items-center px-6 py-32 text-center"
+    >
+      <div className="flex flex-col items-center gap-4">
+        <div className="h-8 w-8 animate-spin rounded-full border-2 border-charcoal/20 border-t-charcoal" />
+        <span className="text-xs uppercase tracking-widest text-earth">Loading...</span>
+      </div>
+    </div>
+  );
+}
 import { CONTACT_EMAIL, CONTACT_PHONE, INSTAGRAM_URL, LOCATION, MAP_EMBED_URL, MAP_URL, WHATSAPP_URL } from './data';
 import { getInteriorImage, WORKS_GALLERY } from './data/interiorGallery';
 
@@ -387,18 +405,20 @@ export default function App() {
       </a>
       <Navbar />
       <AnimatePresence mode="wait">
-        <Routes location={loc}>
-          <Route path="/" element={<Page><Home ready={ready} /></Page>} />
-          <Route path="/about" element={<Page><About /></Page>} />
-          <Route path="/services" element={<Page><Services /></Page>} />
-          <Route path="/works" element={<Page><Works /></Page>} />
-          <Route path="/works/:slug" element={<Page><Project /></Page>} />
-          <Route path="/store" element={<Page><Store /></Page>} />
-          <Route path="/contact" element={<Page><Contact /></Page>} />
-          <Route path="/privacy" element={<Page><PrivacyPolicy /></Page>} />
-          <Route path="/terms" element={<Page><TermsOfUse /></Page>} />
-          <Route path="*" element={<Page><NotFound /></Page>} />
-        </Routes>
+        <Suspense fallback={<PageFallback />}>
+          <Routes location={loc}>
+            <Route path="/" element={<Page><Home ready={ready} /></Page>} />
+            <Route path="/about" element={<Page><About /></Page>} />
+            <Route path="/services" element={<Page><Services /></Page>} />
+            <Route path="/works" element={<Page><Works /></Page>} />
+            <Route path="/works/:slug" element={<Page><Project /></Page>} />
+            <Route path="/store" element={<Page><Store /></Page>} />
+            <Route path="/contact" element={<Page><Contact /></Page>} />
+            <Route path="/privacy" element={<Page><PrivacyPolicy /></Page>} />
+            <Route path="/terms" element={<Page><TermsOfUse /></Page>} />
+            <Route path="*" element={<Page><NotFound /></Page>} />
+          </Routes>
+        </Suspense>
       </AnimatePresence>
       <Footer />
     </>
