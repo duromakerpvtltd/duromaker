@@ -48,6 +48,14 @@ const PAGE_METADATA = {
     title: 'Contact Our Interior Design Studio',
     description: 'Contact DURO MAKER INTERIORS in Cuttack, Odisha to discuss your residential or commercial interior project.',
   },
+  '/privacy': {
+    title: 'Privacy Policy',
+    description: 'Read how DURO MAKER INTERIORS handles website information and optional analytics.',
+  },
+  '/terms': {
+    title: 'Terms of Use',
+    description: 'Terms governing use of the DURO MAKER INTERIORS website.',
+  },
 };
 
 function getPageMetadata(pathname) {
@@ -68,7 +76,12 @@ function getPageMetadata(pathname) {
     };
   }
 
-  return PAGE_METADATA[pathname] || PAGE_METADATA['/'];
+  if (PAGE_METADATA[pathname]) return PAGE_METADATA[pathname];
+
+  return {
+    title: 'Page Not Found',
+    description: 'The requested page could not be found on DURO MAKER INTERIORS.',
+  };
 }
 
 const Page = ({ children }) => {
@@ -204,6 +217,100 @@ function Contact() {
   );
 }
 
+function NotFound() {
+  return (
+    <section className="grid min-h-dvh place-items-center px-6 py-32 text-center md:px-16">
+      <div>
+        <p className="text-xs font-medium uppercase tracking-widest text-earth">404</p>
+        <h1 className="display mt-4 text-6xl md:text-8xl">Page not found</h1>
+        <p className="mx-auto mt-5 max-w-lg leading-relaxed text-charcoal/75">
+          The page may have moved or the address may be incorrect.
+        </p>
+        <a
+          href="/"
+          className="mt-8 inline-block border border-charcoal px-6 py-3 text-sm transition-colors hover:bg-charcoal hover:text-ivory"
+        >
+          Return home
+        </a>
+      </div>
+    </section>
+  );
+}
+
+function PrivacyPolicy() {
+  return (
+    <article className="min-h-screen px-6 pb-28 pt-40 md:px-16">
+      <div className="mx-auto max-w-3xl">
+        <p className="text-xs font-medium uppercase tracking-widest text-earth">Privacy</p>
+        <h1 className="display mt-4 text-6xl md:text-7xl">Privacy Policy</h1>
+        <div className="mt-10 space-y-8 leading-relaxed text-charcoal/80">
+          <section>
+            <h2 className="display text-3xl text-charcoal">Information you share</h2>
+            <p className="mt-3">
+              When you contact us by phone, email, WhatsApp, Instagram, or a linked map service, that provider receives the information you choose to send. We use this information only to respond to project enquiries.
+            </p>
+          </section>
+          <section>
+            <h2 className="display text-3xl text-charcoal">Analytics and cookies</h2>
+            <p className="mt-3">
+              Optional analytics is disabled unless you choose “Allow analytics” in the privacy prompt. With consent, providers may process usage information such as pages visited, approximate region, device type, and referral source.
+            </p>
+          </section>
+          <section>
+            <h2 className="display text-3xl text-charcoal">Third-party services</h2>
+            <p className="mt-3">
+              Maps, social platforms, and analytics providers operate under their own privacy terms. We do not sell personal information.
+            </p>
+          </section>
+          <section>
+            <h2 className="display text-3xl text-charcoal">Your choices</h2>
+            <p className="mt-3">
+              You may contact us to request correction or deletion of information you previously supplied by email or messaging. Clearing your browser storage removes your analytics preference.
+            </p>
+          </section>
+          <section>
+            <h2 className="display text-3xl text-charcoal">Contact</h2>
+            <p className="mt-3">
+              <a className="border-b border-charcoal pb-1" href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>
+            </p>
+          </section>
+        </div>
+      </div>
+    </article>
+  );
+}
+
+function TermsOfUse() {
+  return (
+    <article className="min-h-screen px-6 pb-28 pt-40 md:px-16">
+      <div className="mx-auto max-w-3xl">
+        <p className="text-xs font-medium uppercase tracking-widest text-earth">Terms</p>
+        <h1 className="display mt-4 text-6xl md:text-7xl">Terms of Use</h1>
+        <div className="mt-10 space-y-8 leading-relaxed text-charcoal/80">
+          <section>
+            <h2 className="display text-3xl text-charcoal">Website content</h2>
+            <p className="mt-3">
+              This website presents general interior-design information and editorial reference photography. It does not constitute a quotation, contractual specification, or confirmation that any shown item is available or was completed by DURO MAKER INTERIORS.
+            </p>
+          </section>
+          <section>
+            <h2 className="display text-3xl text-charcoal">Project scope</h2>
+            <p className="mt-3">
+              Pricing, deliverables, timelines, materials, warranties, and responsibilities are confirmed only through a separately agreed project proposal or contract.
+            </p>
+          </section>
+          <section>
+            <h2 className="display text-3xl text-charcoal">Photography and trademarks</h2>
+            <p className="mt-3">
+              Third-party photographs remain subject to their respective licenses and provider terms. You may not reuse website images or branding without the relevant permission.
+            </p>
+          </section>
+        </div>
+      </div>
+    </article>
+  );
+}
+
 export default function App() {
   const loc = useLocation();
   const [ready, setReady] = useState(false);
@@ -288,7 +395,9 @@ export default function App() {
           <Route path="/works/:slug" element={<Page><Project /></Page>} />
           <Route path="/store" element={<Page><Store /></Page>} />
           <Route path="/contact" element={<Page><Contact /></Page>} />
-          <Route path="*" element={<Page><Home ready={ready} /></Page>} />
+          <Route path="/privacy" element={<Page><PrivacyPolicy /></Page>} />
+          <Route path="/terms" element={<Page><TermsOfUse /></Page>} />
+          <Route path="*" element={<Page><NotFound /></Page>} />
         </Routes>
       </AnimatePresence>
       <Footer />

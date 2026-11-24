@@ -11,6 +11,11 @@ const FOOTER_LINKS = [
   ['/contact', 'Contact Us'],
 ];
 
+const LEGAL_LINKS = [
+  ['/privacy', 'Privacy Policy'],
+  ['/terms', 'Terms of Use'],
+];
+
 export default function Footer() {
   const currentYear = new Date().getFullYear();
 
@@ -92,7 +97,11 @@ export default function Footer() {
 
         <div className="flex flex-col gap-3 pt-5 text-xs text-earth sm:flex-row sm:items-center sm:justify-between">
           <p>© {currentYear} DURO MAKER INTERIORS. All rights reserved.</p>
-          <p>Bespoke Interiors &amp; Turnkey Solutions</p>
+          <nav aria-label="Legal" className="flex flex-wrap gap-4">
+            {LEGAL_LINKS.map(([to, name]) => (
+              <Link key={to} to={to} className="transition-colors hover:text-ivory">{name}</Link>
+            ))}
+          </nav>
         </div>
       </div>
     </footer>

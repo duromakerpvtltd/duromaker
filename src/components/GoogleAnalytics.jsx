@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
+import { getTrackingConsent } from '../utils/trackingConsent';
 
 const measurementId = import.meta.env.VITE_GA_MEASUREMENT_ID;
 
@@ -7,7 +8,7 @@ export default function GoogleAnalytics() {
   const location = useLocation();
 
   useEffect(() => {
-    if (!/^G-[A-Z0-9]+$/.test(measurementId || '')) return;
+    if (!getTrackingConsent() || !/^G-[A-Z0-9]+$/.test(measurementId || '')) return;
 
     if (!window.gtag) {
       window.dataLayer = window.dataLayer || [];

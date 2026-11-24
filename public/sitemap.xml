@@ -37,6 +37,18 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://duromaker.vercel.app/privacy</loc>
+    <lastmod>2026-11-24</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
+  <url>
+    <loc>https://duromaker.vercel.app/terms</loc>
+    <lastmod>2026-11-24</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
+  <url>
     <loc>https://duromaker.vercel.app/works/pexels-6980724</loc>
     <lastmod>2026-11-24</lastmod>
     <changefreq>monthly</changefreq>

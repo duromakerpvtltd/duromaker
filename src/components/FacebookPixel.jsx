@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
+import { getTrackingConsent } from '../utils/trackingConsent';
 
 const pixelId = import.meta.env.VITE_FB_PIXEL_ID;
 
@@ -12,7 +13,7 @@ export default function FacebookPixel() {
   const location = useLocation();
 
   useEffect(() => {
-    if (!pixelId || !/^[0-9]{5,25}$/.test(pixelId.trim())) return;
+    if (!getTrackingConsent() || !pixelId || !/^[0-9]{5,25}$/.test(pixelId.trim())) return;
 
     const trimmedId = pixelId.trim();
 

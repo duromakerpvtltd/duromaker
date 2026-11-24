@@ -5,7 +5,9 @@
   "scripts": {
     "dev": "vite",
     "prebuild": "node scripts/generate-seo-files.js",
-    "build": "vite build"
+    "build": "vite build",
+    "preview": "vite preview",
+    "test:load": "node tests/load/benchmark.js"
   },
   "dependencies": {
     "@vercel/analytics": "^2.0.1",

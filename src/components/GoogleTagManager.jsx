@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
+import { getTrackingConsent } from '../utils/trackingConsent';
 
 const gtmId = import.meta.env.VITE_GTM_ID;
 
@@ -12,7 +13,7 @@ export default function GoogleTagManager() {
   const location = useLocation();
 
   useEffect(() => {
-    if (!gtmId || !/^GTM-[A-Z0-9]+$/i.test(gtmId.trim())) return;
+    if (!getTrackingConsent() || !gtmId || !/^GTM-[A-Z0-9]+$/i.test(gtmId.trim())) return;
 
     const trimmedId = gtmId.trim();
 
