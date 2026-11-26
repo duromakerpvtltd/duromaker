@@ -8,7 +8,6 @@ import SearchDialog from './Search';
 const NAV_LINKS = [
   ['/', 'Home'],
   ['/about', 'About'],
-  ['/services', 'Services'],
   ['/works', 'Our Works'],
   ['/store', 'Our Store'],
   ['/contact', 'Contact'],
