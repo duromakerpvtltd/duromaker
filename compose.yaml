@@ -1,0 +1,22 @@
+
+services:
+  duromaker:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        VITE_SITE_URL: ${VITE_SITE_URL:-https://duromaker.vercel.app}
+        VITE_GA_MEASUREMENT_ID: ${VITE_GA_MEASUREMENT_ID:-}
+        VITE_GTM_ID: ${VITE_GTM_ID:-}
+        VITE_FB_PIXEL_ID: ${VITE_FB_PIXEL_ID:-}
+
+    ports:
+      - "${PORT:-8080}:80"
+
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "-q", "-O", "/dev/null", "http://127.0.0.1/health.json"]
+      interval: 30s
+      timeout: 3s
+      start_period: 5s
+      retries: 3

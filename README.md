@@ -12,6 +12,34 @@ Set these variables in Vercel under **Project Settings → Environment Variables
 
 For local development, copy `.env.example` to `.env` and fill in the values. Never commit `.env`.
 
+## Run with Docker
+
+Docker Compose builds the production Vite bundle and serves it with Nginx on port `8080` by default.
+
+1. Copy `.env.example` to `.env` and set any site or analytics values you need:
+
+   ```powershell
+   Copy-Item .env.example .env
+   ```
+
+   These `VITE_*` values are embedded into the frontend at build time, so rebuild after changing them.
+2. Build and start the site:
+
+   ```powershell
+   docker compose up --build -d
+   ```
+
+3. Open <http://localhost:8080>. To use a different host port, set `PORT` in `.env`.
+
+Useful commands:
+
+```powershell
+docker compose logs -f
+docker compose down
+```
+
+The container includes a health check at `/health.json`. For public deployments, put the container behind an HTTPS reverse proxy; the container itself serves HTTP on port 80.
+
 ## Shared UI design skill
 
 The `unslop` skill is installed in this repository for GitHub Copilot, Codex, Antigravity, and other `.agents/skills`-compatible tools, plus Claude Code. Commit the project copies and `skills-lock.json` so teammates get the same skill when they clone the repository. Ask a compatible agent to use `unslop` when refining the interface.
