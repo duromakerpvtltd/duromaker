@@ -365,18 +365,43 @@ export default function App() {
   useEffect(() => {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return undefined;
 
-    const lenis = new Lenis({ lerp: 0.09 });
-    lenisRef.current = lenis;
+    // Let touch devices keep native scrolling so ScrollTrigger stays in sync.
+    const desktopPointer = window.matchMedia('(min-width: 768px) and (pointer: fine)');
+    let lenis = null;
+    let tick = null;
 
-    lenis.on('scroll', ScrollTrigger.update);
-    const tick = (time) => lenis.raf(time * 1000);
-    gsap.ticker.add(tick);
-    gsap.ticker.lagSmoothing(0);
-
-    return () => {
+    const stopLenis = () => {
+      if (!lenis) return;
       gsap.ticker.remove(tick);
       lenis.destroy();
+      lenis = null;
+      tick = null;
       lenisRef.current = null;
+      gsap.ticker.lagSmoothing(500, 33);
+    };
+
+    const syncScroll = () => {
+      if (!desktopPointer.matches) {
+        stopLenis();
+        ScrollTrigger.refresh();
+        return;
+      }
+
+      if (lenis) return;
+      lenis = new Lenis({ lerp: 0.09 });
+      lenisRef.current = lenis;
+      lenis.on('scroll', ScrollTrigger.update);
+      tick = (time) => lenis?.raf(time * 1000);
+      gsap.ticker.add(tick);
+      gsap.ticker.lagSmoothing(0);
+    };
+
+    syncScroll();
+    desktopPointer.addEventListener('change', syncScroll);
+
+    return () => {
+      desktopPointer.removeEventListener('change', syncScroll);
+      stopLenis();
     };
   }, []);
 
@@ -387,14 +412,21 @@ export default function App() {
       window.scrollTo(0, 0);
     }
 
-    const timer = setTimeout(() => {
+    let cancelled = false;
+    const refreshScroll = () => {
+      if (cancelled) return;
       ScrollTrigger.refresh();
       if (lenisRef.current) {
         lenisRef.current.resize();
       }
-    }, 700);
+    };
+    const timer = setTimeout(refreshScroll, 700);
+    document.fonts?.ready.then(refreshScroll);
 
-    return () => clearTimeout(timer);
+    return () => {
+      cancelled = true;
+      clearTimeout(timer);
+    };
   }, [loc.pathname]);
 
   return (
